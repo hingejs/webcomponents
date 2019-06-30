@@ -51,7 +51,7 @@ class TableSort extends HTMLElement {
       .sort(this._comparer(Array.from(th.parentNode.children).indexOf(th), th.asc))
       .forEach(tr => table.tBodies[0].appendChild(tr))
     th.dataset.sort = th.asc ? 'asc' : 'desc'
-    this.dispatchEvent(new CustomEvent('col-sort', { detail: {asc, th} }))
+    this.dispatchEvent(new CustomEvent('col-sort', { detail: {asc: th.asc, th} }))
   }
 
 }
