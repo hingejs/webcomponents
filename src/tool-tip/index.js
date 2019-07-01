@@ -134,7 +134,7 @@ class ToolTip extends HTMLElement {
       case 'top': arrowCoords = this._arrowAtBottom(thisRect); break
       case 'bottom': arrowCoords = this._arrowAtTop(thisRect); break
     }
-    const { arrowTop, arrowLeft } = arrowCoords
+    const { arrowLeft, arrowTop } = arrowCoords
     this.$arrow.style.left = `${arrowLeft}px`
     this.$arrow.style.top = `${arrowTop}px`
   }
@@ -143,28 +143,28 @@ class ToolTip extends HTMLElement {
     const { top, bottom } = targetCoords
     const arrowTop = ((bottom - top) / 2) - this.$arrow.clientWidth / 2
     const arrowLeft = - (this.$arrow.clientWidth / 2)
-    return { arrowTop, arrowLeft }
+    return { arrowLeft, arrowTop }
   }
 
   _arrowAtRight(targetCoords) {
     const { top, bottom, right, left } = targetCoords
     const arrowTop = ((bottom - top) / 2) - this.$arrow.clientHeight / 2
     const arrowLeft = right - left - (this.$arrow.clientWidth / 2)
-    return { arrowTop, arrowLeft }
+    return { arrowLeft, arrowTop }
   }
 
   _arrowAtTop(targetCoords) {
     const { left, right } = targetCoords
     const arrowTop = - this.$arrow.clientWidth / 2
     const arrowLeft = (right - left) / 2 - (this.$arrow.clientWidth / 2)
-    return { arrowTop, arrowLeft }
+    return { arrowLeft, arrowTop }
   }
 
   _arrowAtBottom(targetCoords) {
     const { top, bottom, left, right } = targetCoords
     const arrowTop = bottom - top - (this.$arrow.clientWidth / 2)
     const arrowLeft = (right - left) / 2 - (this.$arrow.clientWidth / 2)
-    return { arrowTop, arrowLeft }
+    return { arrowLeft, arrowTop }
   }
 
   _onMouseover() {

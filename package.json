@@ -1,6 +1,6 @@
 {
   "name": "@hingejs/webcomponents",
-  "description": "Reusable UI Web Component elements.",
+  "description": "hingejs - Reusable UI Web Component elements.",
   "version": "0.0.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "private": false,
@@ -10,23 +10,16 @@
     "lint": "npm run lint:css && npm run lint:js",
     "test": "./node_modules/.bin/karma start test/karma.config.js"
   },
-  "stylelint": {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "color-hex-case": "lower",
-      "indentation": null,
-      "no-empty-source": null,
-      "selector-type-no-unknown": [
-        true,
-        {
-          "ignore": [
-            "custom-elements",
-            "default-namespace"
-          ]
-        }
-      ]
-    }
-  },
+  "keywords": [
+    "custom elements",
+    "elements",
+    "front-end",
+    "javascript",
+    "ui",
+    "web",
+    "web components"
+  ],
+  "repository": "hingejs/webcomponents",
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.10.0",

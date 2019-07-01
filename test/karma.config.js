@@ -17,7 +17,7 @@ module.exports = function (config) {
       skipFilesWithNoCoverage: false
     },
     files: [
-      { included: true, pattern: './index.spec.js', type: 'module' },
+      { included: true, pattern: './elements/index.spec.js', type: 'module' },
     ],
     frameworks: ['chai', 'mocha', 'sinon'],
     logLevel: config.LOG_INFO,
@@ -31,7 +31,7 @@ module.exports = function (config) {
     ],
     port: 9876,
     preprocessors: {
-      './index.spec.js': ['webpack'],
+      './elements/index.spec.js': ['webpack'],
     },
     reporters: ['progress', 'coverage-istanbul'],
     singleRun: true,
