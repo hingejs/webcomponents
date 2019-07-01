@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IoT Suite - Table Sort</title>
+  <style type="text/css">
+    td,
+    th {
+      padding: 1rem;
+    }
+
+    th {
+      cursor: pointer;
+    }
+
+    table th[data-sort="desc"].active::after {
+      content: ' \2191';
+      color: initial;
+    }
+
+    table th[data-sort="asc"].active::after {
+      content: ' \2193';
+      color: initial;
+    }
+
+    table tbody tr:hover {
+      background-color: #eee;
+      cursor: pointer;
+      text-shadow: 1px 0 0 currentColor;
+    }
+  </style>
+</head>
+
+<body>
+  <table-sort>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Zeke</td>
+          <td>1/2/2000</td>
+        </tr>
+        <tr>
+          <td>Ken</td>
+          <td>1/2/2001</td>
+        </tr>
+        <tr>
+            <td>Adam</td>
+          <td>1/2/2002</td>
+        </tr>
+      </tbody>
+    </table>
+  </table-sort>
+
+  <script type="module" src="../src/table-sort/index.js"></script>
+</body>
+
+</html>
