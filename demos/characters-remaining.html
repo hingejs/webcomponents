@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IoT Suite - Accordion Slider</title>
+  <style type="text/css">
+    characters-remaining div {
+        border: 1px solid silver;
+        border-radius: 2px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    characters-remaining input,
+    characters-remaining textarea {
+        border: 0;
+        font-size: 0.9rem;
+        outline: 0;
+        padding: 0.8rem;
+        width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+    <characters-remaining data-caption="chars max">
+      <textarea required="required" maxlength="2000" placeholder="Textarea Description"></textarea>
+    </characters-remaining>
+
+    <characters-remaining data-caption="chars max">
+      <input required="required" maxlength="200" placeholder="Input Description"></textarea>
+    </characters-remaining>
+
+  <script type="module" src="../src/characters-remaining/index.js"></script>
+</body>
+
+</html>

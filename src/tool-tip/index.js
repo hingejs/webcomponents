@@ -129,12 +129,12 @@ class ToolTip extends HTMLElement {
     let arrowCoords
     const thisRect = this.$tip.getBoundingClientRect()
     switch (position) {
-      case 'left': arrowCoords = this._arrowAtRight(thisRect); break
-      case 'right': arrowCoords = this._arrowAtLeft(thisRect); break
-      case 'top': arrowCoords = this._arrowAtBottom(thisRect); break
-      case 'bottom': arrowCoords = this._arrowAtTop(thisRect); break
+    case 'left': arrowCoords = this._arrowAtRight(thisRect); break
+    case 'right': arrowCoords = this._arrowAtLeft(thisRect); break
+    case 'top': arrowCoords = this._arrowAtBottom(thisRect); break
+    case 'bottom': arrowCoords = this._arrowAtTop(thisRect); break
     }
-    const { arrowLeft, arrowTop } = arrowCoords
+    const { arrowTop, arrowLeft } = arrowCoords
     this.$arrow.style.left = `${arrowLeft}px`
     this.$arrow.style.top = `${arrowTop}px`
   }

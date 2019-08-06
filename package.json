@@ -1,8 +1,8 @@
 {
   "name": "@hingejs/webcomponents",
-  "description": "hingejs - Reusable UI Web Component elements.",
+  "description": "Reusable UI Web Component elements.",
   "version": "0.0.0",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "private": false,
   "scripts": {
     "lint:js": "./node_modules/.bin/eslint -c ./.eslintrc --ext .js ./src",
@@ -17,7 +17,8 @@
     "javascript",
     "ui",
     "web",
-    "web components"
+    "web components",
+    "web-components"
   ],
   "repository": "hingejs/webcomponents",
   "devDependencies": {
