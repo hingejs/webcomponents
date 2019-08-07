@@ -4,7 +4,7 @@ Used for keeping track of the number of characters left in a textarea or input b
 
 ### @properties
 - `data-caption` - Caption to add with the counter
- - `maxLength` {number} maximum number of characters allowed
+- `maxLength` {number} maximum number of characters allowed
 
 ### example
 
