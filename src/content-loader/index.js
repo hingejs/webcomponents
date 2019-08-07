@@ -4,7 +4,7 @@ class ContentLoader extends HTMLElement {
     super()
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.appendChild(this.generateTemplate().content.cloneNode(true))
-    this._loader = this.shadowRoot.querySelector('div.loader')
+    this.$loader = this.shadowRoot.querySelector('div.content')
   }
 
   generateTemplate() {
@@ -20,13 +20,14 @@ class ContentLoader extends HTMLElement {
         }
         .loader {
           align-items: center;
-          background-color: var(--background, #eee);
+          background-color: var(--background, transparent);
           display: inline-flex;
           height: 100%;
           justify-content: center;
           left: 0;
           position: absolute;
           top: 0;
+          transition: transform .2s ease-out;
           visibility: hidden;
           width: 100%;
           z-index: 9999;
@@ -52,11 +53,15 @@ class ContentLoader extends HTMLElement {
             transform: rotate(360deg);
           }
         }
-        .dual-ring:hover {
+        .loader:hover {
           transform: scale(1.2);
         }
-        .loader.is-active {
+        .content.is-loading .loader {
           visibility: visible;
+          min-height: 70px;
+        }
+        .content.is-loading slot {
+          visibility: hidden;
         }
       </style>
       <div class="content">
@@ -84,14 +89,18 @@ class ContentLoader extends HTMLElement {
   }
 
   _render() {
-    if (this.dataset.loading && this.dataset.loading.toLowerCase() === 'true') {
-      this._loader.classList.add('is-active')
+    if (this.isLoading()) {
+      this.$loader.classList.add('is-loading')
     } else {
-      this._loader.classList.remove('is-active')
+      this.$loader.classList.remove('is-loading')
     }
   }
 
   isLoading() {
+    return this.getAttribute('data-loading') === 'true'
+  }
+
+  loading() {
     this.dataset.loading = true
   }
 
