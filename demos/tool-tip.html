@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tool Tip</title>
+  <style type="text/css">
+  div {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+  </style>
+</head>
+
+<body>
+  <div>
+    <span id="tip1">Hover me for tip</span>
+    <tool-tip
+      data-position="right"
+      data-for="tip1"><p>Some Text</p></tool-tip>
+
+    <tool-tip
+      data-position="bottom"
+      data-for="tip1"><p>Some Text</p></tool-tip>
+
+    <tool-tip
+      data-position="top"
+      data-for="tip1"><p>Some Text</p></tool-tip>
+
+      <tool-tip
+      data-position="left"
+      data-for="tip1"><p>Some Text</p></tool-tip>
+  </div>
+  <script type="module" src="../src/tool-tip/index.js"></script>
+
+</body>
+
+</html>

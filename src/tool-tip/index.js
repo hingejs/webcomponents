@@ -7,17 +7,17 @@ class ToolTip extends HTMLElement {
     template.innerHTML = `
       <style>
         .arrow {
-          background: var(--surface);
+          background: var(--surface, #212121);
           height: 15px;
           position: absolute;
           transform: rotateZ(45deg);
           width: 15px;
         }
         .tip {
-          background-color: var(--surface);
+          background-color: var(--surface, #212121);
           border-radius: 6px;
-          box-shadow: var(--element-shadow);
-          color: var(--on-surface);
+          box-shadow: var(--element-shadow, rgba(0,0,0,0.5));
+          color: var(--on-surface, #eee);
           display: inline;
           left: -100px;
           opacity: 0;
