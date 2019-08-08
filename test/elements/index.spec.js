@@ -1,4 +1,4 @@
-import '../../src/index.js'
+import '../../index.js'
 import './characters-remaining.spec.js'
 import './content-loader.spec.js'
 import './route/index.spec.js'
