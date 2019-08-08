@@ -1,4 +1,4 @@
-class ToolTip extends HTMLElement {
+window.customElements.define('tool-tip', class extends HTMLElement {
 
   _generateTemplate() {
 
@@ -178,7 +178,4 @@ class ToolTip extends HTMLElement {
     this.$tip.style.top = '-100px'
   }
 
-}
-
-window.customElements.define('tool-tip', ToolTip)
-export default ToolTip
+})

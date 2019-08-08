@@ -1,4 +1,4 @@
-class RouteLink extends HTMLElement {
+window.customElements.define('route-link', class extends HTMLElement {
 
   constructor() {
     super()
@@ -59,7 +59,4 @@ class RouteLink extends HTMLElement {
     return this.dataset.disabled && this.dataset.disabled.toLowerCase() === 'true'
   }
 
-}
-
-window.customElements.define('route-link', RouteLink)
-export default RouteLink
+})

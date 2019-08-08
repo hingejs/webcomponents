@@ -1,5 +1,4 @@
-
-class RouteDisplay extends HTMLElement {
+window.customElements.define('route-display', class extends HTMLElement {
 
   constructor() {
     super()
@@ -64,7 +63,4 @@ class RouteDisplay extends HTMLElement {
     })
   }
 
-}
-
-window.customElements.define('route-display', RouteDisplay)
-export default RouteDisplay
+})

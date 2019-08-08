@@ -1,4 +1,4 @@
-class ContentLoader extends HTMLElement {
+window.customElements.define('content-loader', class extends HTMLElement {
 
   constructor() {
     super()
@@ -108,7 +108,4 @@ class ContentLoader extends HTMLElement {
     this.dataset.loading = false
   }
 
-}
-
-window.customElements.define('content-loader', ContentLoader)
-export default ContentLoader
+})

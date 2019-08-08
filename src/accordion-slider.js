@@ -1,4 +1,4 @@
-class AccordionSlider extends HTMLElement {
+window.customElements.define('accordion-slider', class extends HTMLElement {
 
 
   constructor() {
@@ -139,7 +139,4 @@ class AccordionSlider extends HTMLElement {
       .reduce((prev, cur) => prev + cur, ~~target.scrollHeight)
   }
 
-}
-
-window.customElements.define('accordion-slider', AccordionSlider)
-export default AccordionSlider
+})

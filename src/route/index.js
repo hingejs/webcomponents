@@ -1,7 +1,2 @@
-import RouteDisplay from './route-display.js'
-import RouteLink from './route-link.js'
-
-export {
-  RouteDisplay,
-  RouteLink
-}
+import './route-display.js'
+import './route-link.js'

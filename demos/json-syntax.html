@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JSON json-syntax</title>
+</head>
+
+<body>
+    <json-syntax></json-syntax>
+
+  <script type="module" src="../src/json-syntax.js"></script>
+
+  <script>
+    const obj = {a:1, 'b':'foo', c:[false,'false',null, 'null', {d:{e:1.3e5,f:'1.3e5'}}]}
+    const jsonSyntax = document.querySelector('json-syntax')
+
+    customElements.whenDefined('json-syntax').then(() => {
+      jsonSyntax.render(obj)
+    })
+
+    </script>
+</body>
+
+</html>

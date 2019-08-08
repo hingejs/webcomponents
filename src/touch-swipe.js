@@ -1,5 +1,5 @@
 
-class TouchSwipe extends HTMLElement {
+window.customElements.define('touch-swipe', class extends HTMLElement {
 
   constructor() {
     super()
@@ -77,7 +77,4 @@ class TouchSwipe extends HTMLElement {
     }
   }
 
-}
-
-window.customElements.define('touch-swipe', TouchSwipe)
-export default TouchSwipe
+})

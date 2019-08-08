@@ -1,4 +1,4 @@
-class CharactersRemaining extends HTMLElement {
+window.customElements.define('characters-remaining', class extends HTMLElement {
 
   constructor() {
     super()
@@ -93,7 +93,4 @@ class CharactersRemaining extends HTMLElement {
     }
   }
 
-}
-
-window.customElements.define('characters-remaining', CharactersRemaining)
-export default CharactersRemaining
+})

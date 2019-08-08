@@ -1,4 +1,4 @@
-class TableSort extends HTMLElement {
+window.customElements.define('table-sort', class extends HTMLElement {
 
   constructor() {
     super()
@@ -54,7 +54,4 @@ class TableSort extends HTMLElement {
     this.dispatchEvent(new CustomEvent('col-sort', { detail: {asc: th.asc, th} }))
   }
 
-}
-
-window.customElements.define('table-sort', TableSort)
-export default TableSort
+})
