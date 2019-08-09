@@ -27,6 +27,15 @@ window.customElements.define('json-syntax', class extends HTMLElement {
     this.$pre.innerHTML = this._syntaxHighlight(source)
   }
 
+  /*
+    1st Capturing Group = "(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?
+      Gets unicode values with optional colon
+    " matches the character " literally (case sensitive)
+    2nd Capturing Group = \b(true|false|null)\b
+      word boundary for boolean or null value
+    3th Capturing Group = -?\d+(?:\.\d*)?(?:[eE][+]?\d+)?
+      all numeric type values
+  */
   _syntaxHighlight(source) {
     let json = this._formatJSON(source)
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
