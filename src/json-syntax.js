@@ -11,12 +11,12 @@ window.customElements.define('json-syntax', class extends HTMLElement {
     const template = document.createElement('template')
     template.innerHTML = `
       <style>
-        pre {outline: 1px solid #ccc; padding: 5px; }
-        .string { color: green; }
+        pre { overflow: auto; font-weight: bold; }
+        .string { color: #de5b4c; }
         .number { color: darkorange; }
-        .boolean { color: blue; }
+        .boolean { color: #6071f6	; }
         .null { color: magenta; }
-        .key { color: red; }
+        .key { color: #8e3693; }
       </style>
       <pre></pre>
     `
