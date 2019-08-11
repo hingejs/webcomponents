@@ -1,6 +1,10 @@
 # &#8762; Hingejs - WebComponents
 A Suite of Web Components to be used in the UI
 
+## Live demos
+
+https://hingejs.github.io/webcomponents/
+
 ## CDN
 
 https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js
