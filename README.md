@@ -1,6 +1,12 @@
 # &#8762; Hingejs - WebComponents
 A Suite of Web Components to be used in the UI
 
+## Install
+
+```sh
+$ npm install @hingejs/webcomponents --save
+```
+
 ## Live demos
 
 https://hingejs.github.io/webcomponents/
@@ -12,6 +18,11 @@ https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js
 or by version
 
 https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@0.0.3/index.min.js
+
+
+```html
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js"></script>
+```
 
 ## CSS Variables to style components using shadow-dom
 
