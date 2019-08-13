@@ -192,4 +192,8 @@ window.customElements.define('tool-tip', class extends HTMLElement {
     this.$tip.style.top = '-100px'
   }
 
+  isShowing() {
+    return this.$tip.classList.contains('active')
+  }
+
 })

@@ -37,15 +37,13 @@
       data-for="tip1"><p>Some Text</p></tool-tip>
   </div>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js"></script>
-
   <script>
 
     customElements.whenDefined('tool-tip').then(() => {
       const span = document.querySelector('#tip1')
       const tipTop = document.querySelector('tool-tip[data-position="top"]')
-      // console.dir(tipTop)
       span.addEventListener('touch-swipe', (evt) => {
-        if(evt.detail === 'tap') {
+        if(evt.detail === 'tap' && !tipTop.isShowing()) {
           tipTop.show()
         } else {
           tipTop.hide()
