@@ -17,7 +17,9 @@
 
 <body>
   <div>
-    <span id="tip1">Hover me for tip</span>
+    <touch-swipe>
+      <span id="tip1">Hover me for tip</span>
+    </touch-swipe>
     <tool-tip
       data-position="right"
       data-for="tip1"><p>Some Text</p></tool-tip>
@@ -36,6 +38,17 @@
   </div>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js"></script>
 
+  <script>
+    const span = document.querySelector('#tip1')
+    const tipTop = document.querySelector('tool-tip[data-position="top"]')
+    span.addEventListener('touch-swipe', (evt) => {
+      if(evt.detail === 'tap') {
+        tipTop.show()
+      } else {
+        tipTop.hide()
+      }
+    })
+  </script>
 </body>
 
 </html>

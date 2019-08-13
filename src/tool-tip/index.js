@@ -30,6 +30,18 @@ window.customElements.define('tool-tip', class extends HTMLElement {
         .tip.active {
           opacity:1;
         }
+        .bottom {
+          box-shadow: -1px -1px var(--shadow);
+        }
+        .left {
+          box-shadow: 1px -1px var(--shadow);
+        }
+        .top {
+          box-shadow: 1px 1px 1px 0px var(--shadow);
+        }
+        .right {
+          box-shadow: -1px 1px var(--shadow);
+        }
       </style>
       <div class="tip">
         <div class="arrow"></div>
@@ -45,8 +57,8 @@ window.customElements.define('tool-tip', class extends HTMLElement {
       .appendChild(this._generateTemplate().content.cloneNode(true))
     this.$tip = this.shadowRoot.querySelector('div.tip')
     this.$arrow = this.shadowRoot.querySelector('div.arrow')
-    this._onMouseoverBind = this._onMouseover.bind(this)
-    this._onMouseoutBind = this._onMouseout.bind(this)
+    this._onMouseoverBind = this.show.bind(this)
+    this._onMouseoutBind = this.hide.bind(this)
     this.$tipFor
   }
 
@@ -64,18 +76,18 @@ window.customElements.define('tool-tip', class extends HTMLElement {
   updateTipFor() {
     this.disconnectedCallback()
     this.$tipFor = document.getElementById(this.dataset.for)
-    if (this.$tipFor) {
+    if (this.$tipFor && this.getAttribute('data-hover') !== 'false') {
       this.$tipFor.addEventListener('mouseover', this._onMouseoverBind)
       this.$tipFor.addEventListener('mouseout', this._onMouseoutBind)
     }
   }
   static get observedAttributes() {
-    return ['data-position', 'data-for']
+    return ['data-position', 'data-for', 'data-hover']
   }
 
   attributeChangedCallback(attr, oldValue, newValue) {
     if (oldValue !== newValue) {
-      if (attr === 'data-for') {
+      if (['data-for', 'data-hover'].includes(attr)) {
         this.updateTipFor()
       }
       this._positionAt()
@@ -137,6 +149,8 @@ window.customElements.define('tool-tip', class extends HTMLElement {
     const { arrowTop, arrowLeft } = arrowCoords
     this.$arrow.style.left = `${arrowLeft}px`
     this.$arrow.style.top = `${arrowTop}px`
+    this.$arrow.classList.remove('top', 'bottom', 'left', 'right')
+    this.$arrow.classList.add(position)
   }
 
   _arrowAtLeft(targetCoords) {
@@ -167,12 +181,12 @@ window.customElements.define('tool-tip', class extends HTMLElement {
     return { arrowLeft, arrowTop }
   }
 
-  _onMouseover() {
+  show() {
     this._positionAt()
     this.$tip.classList.add('active')
   }
 
-  _onMouseout() {
+  hide() {
     this.$tip.classList.remove('active')
     this.$tip.style.left = '-100px'
     this.$tip.style.top = '-100px'

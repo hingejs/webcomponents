@@ -1,4 +1,3 @@
-
 window.customElements.define('touch-swipe', class extends HTMLElement {
 
   constructor() {
