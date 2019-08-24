@@ -21,6 +21,11 @@
     "web-components"
   ],
   "repository": "hingejs/webcomponents",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/hingejs/webcomponents/issues"
+  },
+  "homepage": "https://github.com/hingejs/webcomponents#readme",
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.10.0",

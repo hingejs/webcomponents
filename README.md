@@ -1,15 +1,27 @@
 # &#8762; Hingejs - WebComponents
+
 A Suite of Web Components to be used in the UI
+
+These are built under the custom elements spec.  These tags can be dropped into any front end application that supports them, which is all modern browsers.  A polyfill can be added for older browsers.  
+
+You can use this package in addition to your own.
+
+> This is a work in progress until a 1.0.0 release.
+
+## Live demos
+
+https://hingejs.github.io/webcomponents/
+
+#### Related packages
+
+- https://www.npmjs.com/package/@hingejs/generator
+- https://www.npmjs.com/package/@hingejs/services
 
 ## Install
 
 ```sh
 $ npm install @hingejs/webcomponents --save
 ```
-
-## Live demos
-
-https://hingejs.github.io/webcomponents/
 
 ## CDN
 
