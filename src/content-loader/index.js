@@ -1,4 +1,4 @@
-window.customElements.define('content-loader', class extends HTMLElement {
+window.customElements.define('h-content-loader', class extends HTMLElement {
 
   constructor() {
     super()
