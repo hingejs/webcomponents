@@ -5,7 +5,7 @@ Used for displaying a loading animation while waiting for content to display
 ### example
 
 ```html
-<content-loader data-loading="true">
+<h-content-loader data-loading="true">
   <slot></slot>
-</content-loader>
+</h-content-loader>
 ```

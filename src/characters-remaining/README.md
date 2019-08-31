@@ -11,7 +11,7 @@ Used for keeping track of the number of characters left in a textarea or input b
 Wrap the `textarea` or `input` tag with a `<characters-remaining>` tag `maxlength` is a required attribute for this component
 
 ```html
-<characters-remaining>
+<h-characters-remaining>
   <textarea id="description" name="description" required="required" maxlength="2000" placeholder="Add Package Description"></textarea>
-</characters-remaining>
+</h-characters-remaining>
  ```

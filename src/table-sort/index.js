@@ -1,4 +1,4 @@
-window.customElements.define('table-sort', class extends HTMLElement {
+window.customElements.define('h-table-sort', class extends HTMLElement {
 
   constructor() {
     super()

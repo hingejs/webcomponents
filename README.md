@@ -32,26 +32,58 @@ or by version
 https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@0.0.3/index.min.js
 
 
+https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@latest/index.min.js
+
+
 ```html
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js"></script>
 ```
+
+### Individual elements
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@latest/src/accordion-slider/index.js"></script>
+```
+
+## Webpack
+
+All elements
+
+```js
+import '@hingejs/webcomponents'
+```
+
+### Individual elements
+
+```js
+import '@hingejs/webcomponents/src/accordion-slider/index.js'
+import '@hingejs/webcomponents/src/characters-remaining/index.js'
+import '@hingejs/webcomponents/src/content-loader/index.js'
+import '@hingejs/webcomponents/src/content-loader/index.js'
+import '@hingejs/webcomponents/src/json-syntax/index.js'
+import '@hingejs/webcomponents/src/route/index.js'
+import '@hingejs/webcomponents/src/table-sort/index.js'
+import '@hingejs/webcomponents/src/tool-tip/index.js'
+import '@hingejs/webcomponents/src/touch-swipe/index.js'
+```
+
 
 ## CSS Variables to style components using shadow-dom
 
 ```css
-  --primary: #4d68cb;
-  --on-primary: #fff;
-  --primary-variant: #0026ad;
-  --secondary: #506be5;
-  --on-secondary: #fff;
-  --success: #5ba014;
-  --error: #d05050;
-  --header: #f5f5f5;
-  --on-header: #494949;
-  --nav: #fff;
-  --on-nav: #000;
-  --background: #fff;
-  --on-background: #4d68cb;
-  --surface: #fff;
-  --on-surface: #212121;
+--primary: #4d68cb;
+--on-primary: #fff;
+--primary-variant: #0026ad;
+--secondary: #506be5;
+--on-secondary: #fff;
+--success: #5ba014;
+--error: #d05050;
+--header: #f5f5f5;
+--on-header: #494949;
+--nav: #fff;
+--on-nav: #000;
+--background: #fff;
+--on-background: #4d68cb;
+--surface: #fff;
+--on-surface: #212121;
   ```

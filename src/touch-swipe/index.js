@@ -1,4 +1,4 @@
-window.customElements.define('touch-swipe', class extends HTMLElement {
+window.customElements.define('h-touch-swipe', class extends HTMLElement {
 
   constructor() {
     super()
