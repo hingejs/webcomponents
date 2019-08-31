@@ -1,7 +1,7 @@
 describe('content-loader', () => {
 
   let el
-  const elemTag = 'content-loader'
+  const elemTag = 'h-content-loader'
   const expect = chai.expect
 
   beforeEach(() => {

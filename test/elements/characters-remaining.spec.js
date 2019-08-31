@@ -1,7 +1,7 @@
 describe('characters-remaining', () => {
 
   let el
-  const elemTag = 'characters-remaining'
+  const elemTag = 'h-characters-remaining'
   const expect = chai.expect
 
   beforeEach(() => {

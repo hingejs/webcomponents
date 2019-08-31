@@ -1,7 +1,7 @@
 describe('touch-swipe', () => {
 
   let el
-  const elemTag = 'touch-swipe'
+  const elemTag = 'h-touch-swipe'
   const expect = chai.expect
 
   beforeEach(() => {

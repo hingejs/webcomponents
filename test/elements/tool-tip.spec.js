@@ -1,7 +1,7 @@
 describe('tool-tip', () => {
 
   let el
-  const elemTag = 'tool-tip'
+  const elemTag = 'h-tool-tip'
   const expect = chai.expect
 
   beforeEach(() => {

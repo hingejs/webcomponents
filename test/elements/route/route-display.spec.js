@@ -1,7 +1,7 @@
 describe('route-display', () => {
 
   let el
-  const elemTag = 'route-display'
+  const elemTag = 'h-route-display'
   const expect = chai.expect
 
   beforeEach(() => {

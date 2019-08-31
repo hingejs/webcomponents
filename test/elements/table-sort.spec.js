@@ -1,7 +1,7 @@
 describe('table-sort', () => {
 
   let el
-  const elemTag = 'table-sort'
+  const elemTag = 'h-table-sort'
   const expect = chai.expect
 
   beforeEach(() => {

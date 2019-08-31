@@ -1,7 +1,7 @@
 describe('route-link', () => {
 
   let el
-  const elemTag = 'route-link'
+  const elemTag = 'h-route-link'
   const expect = chai.expect
 
   beforeEach(() => {
