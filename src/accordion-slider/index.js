@@ -1,4 +1,4 @@
-window.customElements.define('accordion-slider', class extends HTMLElement {
+window.customElements.define('h-accordion-slider', class extends HTMLElement {
 
 
   constructor() {

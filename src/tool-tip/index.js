@@ -1,4 +1,4 @@
-window.customElements.define('tool-tip', class extends HTMLElement {
+window.customElements.define('h-tool-tip', class extends HTMLElement {
 
   _generateTemplate() {
 

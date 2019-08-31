@@ -12,7 +12,7 @@ Used for hiding or showing content
 ### example
 
 ```html
-<accordion-slider>
+<h-accordion-slider>
   <section data-group="main">
     <header class="accordion-header expanded">
       Show Details
@@ -24,5 +24,5 @@ Used for hiding or showing content
       </div>
     </summary>
   </section>
-</accordion-slider>
+</h-accordion-slider>
 ```

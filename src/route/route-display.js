@@ -1,4 +1,4 @@
-window.customElements.define('route-display', class extends HTMLElement {
+window.customElements.define('h-route-display', class extends HTMLElement {
 
   constructor() {
     super()

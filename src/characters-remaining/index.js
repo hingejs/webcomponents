@@ -1,4 +1,4 @@
-window.customElements.define('characters-remaining', class extends HTMLElement {
+window.customElements.define('h-characters-remaining', class extends HTMLElement {
 
   constructor() {
     super()

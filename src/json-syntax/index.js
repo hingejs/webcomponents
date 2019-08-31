@@ -1,4 +1,4 @@
-window.customElements.define('json-syntax', class extends HTMLElement {
+window.customElements.define('h-json-syntax', class extends HTMLElement {
 
   constructor() {
     super()
