@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Side Notification</title>
+  <style type="text/css">
+  </style>
+</head>
+
+<body>
+  <p>Click a button to see a notification example</p>
+  <button class="info">Info(random time)</button>
+  <button class="warning">Warning</button>
+  <button class="error">Error</button>
+  <button class="success">Success</button>
+  <h-side-notification></h-side-notification>
+
+  <script type="module" src="../src/side-notification/index.js"></script>
+
+  <script>
+
+
+    customElements.whenDefined('h-side-notification').then(() => {
+      const $sideNotification = document.querySelector('h-side-notification')
+      document.querySelector('.info').addEventListener('click', () => {
+        $sideNotification.addNotification({
+          message: 'Here is some Information!',
+          time: Math.floor(Math.random() * (+15 - +1)) + +1,
+          title: 'Info!',
+          type: 'info'
+        })
+      })
+      document.querySelector('.warning').addEventListener('click', () => {
+        $sideNotification.addNotification({
+          message: 'Here is something to warn about!',
+          title: 'Warning!',
+          type: 'warning'
+        })
+      })
+      document.querySelector('.error').addEventListener('click', () => {
+        $sideNotification.addNotification({
+          message: 'Please try again!',
+          title: 'Error!',
+          type: 'error'
+        })
+      })
+      document.querySelector('.success').addEventListener('click', () => {
+        $sideNotification.addNotification({
+          message: 'Great Job!',
+          title: 'Success!',
+          type: 'success'
+        })
+      })
+    })
+  </script>
+
+</body>
+
+</html>
