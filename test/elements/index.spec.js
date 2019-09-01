@@ -1,6 +1,7 @@
 import '../../index.js'
 import './characters-remaining.spec.js'
 import './content-loader.spec.js'
+import './modal/index.spec.js'
 import './route/index.spec.js'
 import './table-sort.spec.js'
 import './tool-tip.spec.js'
