@@ -4,12 +4,22 @@ window.customElements.define('h-tabs', class extends HTMLElement {
     const template = document.createElement('template')
     template.innerHTML = `
       <style>
+      :host {
+        --tabs-width: 100px;
+        --tabs-section-width: 100px;
+      }
+      .panel-container {
+        border: 1px solid black;
+          overflow: hidden;
+      }
+
       .tab-panel {
         box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
         background: white;
         border-radius: 3px;
         padding: 16px;
         height: 250px;
+        width: var(--tabs-width, 100px);
         overflow: auto;
       }
       .tab-panel ::slotted([aria-hidden="true"]) {
@@ -38,6 +48,8 @@ window.customElements.define('h-tabs', class extends HTMLElement {
         border-top-right-radius: 3px;
         background: linear-gradient(#fafafa, #eee);
         border: none; /* if the user users a <button> */
+        width: var(--tabs-section-width, 100%);
+      }
       }
       .tab-navigation ::slotted([aria-selected="true"]) {
         font-weight: 600;
@@ -88,12 +100,38 @@ window.customElements.define('h-tabs', class extends HTMLElement {
       <div class="tab-navigation">
         <slot id="tabSlot" name="navigation"></slot>
       </div>
-      <div class="tab-panel">
-        <slot id="panelSlot" class="animate-opacity"></slot>
+      <div class="panel-container">
+        <div class="tab-panel">
+          <slot id="panelSlot" class="animate-opacity"></slot>
+        </div>
       </div>
     `.trim()
     return template
   }
+
+  updateWidth() {
+    if(this.rootStyle && this.$panels) {
+      const numTabs = this.$panels.length
+      this.rootStyle.style.setProperty('--tabs-width', `${100*numTabs}%`)
+      this.rootStyle.style.setProperty('--tabs-section-width', `${(100/numTabs).toFixed(1)}%`)
+      console.log(this.rootStyle)
+    }
+  }
+
+  findCSSSelectorText(element, selector) {
+    let result
+    const sheets = [...element.styleSheets]
+    const len = sheets.length
+    for(let i = 0; i < len; i++) {
+      result = [...sheets[i].cssRules].find(rule => rule.selectorText === selector)
+      if(result) {
+        break
+      }
+    }
+
+    return result
+  }
+
 
   constructor() {
     super()
@@ -102,12 +140,14 @@ window.customElements.define('h-tabs', class extends HTMLElement {
     this.$tabSlot = this.shadowRoot.querySelector('#tabSlot')
     this.$panelSlot = this.shadowRoot.querySelector('#panelSlot')
     this._selected = 0
+    this.rootStyle = this.findCSSSelectorText(this.shadowRoot, ':host')
 
     this.$tabSlot.addEventListener('slotchange', () => {
       this.$tabs = this.$tabSlot.assignedNodes({ flatten: true })
       this.$panels = this.$panelSlot.assignedNodes({ flatten: true })
         .filter(el => el.nodeType === Node.ELEMENT_NODE)
       this.selected = this._findFirstSelectedTab()
+      this.updateWidth()
     })
 
     this.$tabSlot.addEventListener('click', (evt) => {
