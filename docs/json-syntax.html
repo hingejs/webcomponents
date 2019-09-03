@@ -13,7 +13,7 @@
 
   <script>
     const obj = {a:1, 'b':'foo', c:[false,'false',null, 'null', {d:{e:1.3e5,f:'1.3e5'}}]}
-    const jsonSyntax = document.querySelector('json-syntax')
+    const jsonSyntax = document.querySelector('h-json-syntax')
 
     customElements.whenDefined('h-json-syntax').then(() => {
       jsonSyntax.render(obj)
