@@ -9,13 +9,13 @@
 <body>
     <h-json-syntax></h-json-syntax>
 
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents/index.min.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@latest/src/json-syntax/index.js"></script>
 
   <script>
     const obj = {a:1, 'b':'foo', c:[false,'false',null, 'null', {d:{e:1.3e5,f:'1.3e5'}}]}
     const jsonSyntax = document.querySelector('json-syntax')
 
-    customElements.whenDefined('json-syntax').then(() => {
+    customElements.whenDefined('h-json-syntax').then(() => {
       jsonSyntax.render(obj)
     })
 

@@ -27,7 +27,6 @@ window.customElements.define('h-tabs', class extends HTMLElement {
       }
 
       .tab-navigation ::slotted(*) {
-        font: 400 16px/22px 'Roboto';
         padding: 16px 8px;
         margin: 0;
         text-align: center;
