@@ -3,118 +3,70 @@ window.customElements.define('h-tabs', class extends HTMLElement {
   _generateTemplate() {
     const template = document.createElement('template')
     template.innerHTML = `
-      <style>
-      :host {
-        --tabs-width: 100px;
-        --tabs-section-width: 100px;
-      }
-      .panel-container {
-        border: 1px solid black;
+    <style>
+        :host {
+          --tabs-width: 100px;
+          --tabs-section-width: 100px;
+        }
+        .panel-container {
           overflow: hidden;
-      }
-
-      .tab-panel {
-        box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
-        background: white;
-        border-radius: 3px;
-        padding: 16px;
-        height: 250px;
-        width: var(--tabs-width, 100px);
-        overflow: auto;
-      }
-      .tab-panel ::slotted([aria-hidden="true"]) {
-        display: none;
-      }
-
-
-      .tab-navigation {
-        display: flex;
-        user-select: none;
-        outline: none;
-      }
-      .tab-navigation slot {
-        display: flex;
-      }
-
-      .tab-navigation ::slotted(*) {
-        padding: 16px 8px;
-        margin: 0;
-        text-align: center;
-        white-space: nowrap;
-        overflow: hidden;
-        outline: none;
-        cursor: pointer;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        background: linear-gradient(#fafafa, #eee);
-        border: none; /* if the user users a <button> */
-        width: var(--tabs-section-width, 100%);
-      }
-      }
-      .tab-navigation ::slotted([aria-selected="true"]) {
-        font-weight: 600;
-        background: white;
-        box-shadow: none;
-      }
-
-      .animate-opacity {
-        animation:animateOpacity 0.8s;
-      }
-      @keyframes animateOpacity {
-        from {
-          opacity:0;
+          height: 200px;
+          background: var(--surface, rgba(0,0,0,0.75));
+          color: var(--on-surface, white);
+          border-top-right-radius: 5px;
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
         }
-        to {
-          opacity:1;
+        .tab-panel {
+          width: var(--tabs-width);
+          height: 100%;
+          transition: transform 0.3s;
+          display: flex;
+          flex-flow: row nowrap;
         }
-      }
-      .animate-left {
-        position:relative;
-        animation: animateLeft 0.4s;
-      }
-      @keyframes animateLeft {
-        from {
-          left:-300px;
-          opacity:0;
+        .tab-panel ::slotted(*) {
+          height: 100%;
+          width: var(--tabs-section-width);
+          padding: 30px;
+          overflow-y: auto;
         }
-        to {
-          left:0;
-          opacity:1;
+        .tab-navigation slot {
+          display: inline-flex;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          overflow: hidden;
         }
-      }
-      .animate-right {
-        position:relative;
-        animation:animateRight 0.4s
-      }
-      @keyframes animateRight {
-        from {
-          right:-300px;
-          opacity:0;
+        .tab-navigation ::slotted(*) {
+          cursor: pointer;
+          user-select: none;
+          padding: 20px;
+          border: none;
+          outline: none;
+          background: var(--surface, rgba(0,0,0,0.5));
+          color: var(--on-surface, white);
+          font-weight: bold;
         }
-        to {
-          right:0;
-          opacity:1;
+        .tab-navigation ::slotted([aria-selected="true"]) {
+          background: rgba(0,0,0,0.75);
         }
-      }
-      </style>
-      <div class="tab-navigation">
-        <slot id="tabSlot" name="navigation"></slot>
-      </div>
-      <div class="panel-container">
-        <div class="tab-panel">
-          <slot id="panelSlot" class="animate-opacity"></slot>
+    </style>
+    <div class="tab-navigation">
+      <slot id="tabSlot" name="navigation"></slot>
+    </div>
+    <div class="panel-container">
+        <div id="tabPanel" class="tab-panel">
+          <slot id="panelSlot"></slot>
         </div>
-      </div>
-    `.trim()
+    </div>
+  `.trim()
     return template
   }
 
   updateWidth() {
-    if(this.rootStyle && this.$panels) {
+    if (this.rootStyle && this.$panels) {
       const numTabs = this.$panels.length
-      this.rootStyle.style.setProperty('--tabs-width', `${100*numTabs}%`)
-      this.rootStyle.style.setProperty('--tabs-section-width', `${(100/numTabs).toFixed(1)}%`)
-      console.log(this.rootStyle)
+      this.rootStyle.style.setProperty('--tabs-width', `${100 * numTabs}%`)
+      this.rootStyle.style.setProperty('--tabs-section-width', `${(100 / numTabs).toFixed(1)}%`)
     }
   }
 
@@ -122,21 +74,21 @@ window.customElements.define('h-tabs', class extends HTMLElement {
     let result
     const sheets = [...element.styleSheets]
     const len = sheets.length
-    for(let i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
       result = [...sheets[i].cssRules].find(rule => rule.selectorText === selector)
-      if(result) {
+      if (result) {
         break
       }
     }
-
     return result
   }
 
-
   constructor() {
     super()
+    let numTabs
     const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+    this.$tabPanel = this.shadowRoot.querySelector('#tabPanel')
     this.$tabSlot = this.shadowRoot.querySelector('#tabSlot')
     this.$panelSlot = this.shadowRoot.querySelector('#panelSlot')
     this._selected = 0
@@ -146,6 +98,7 @@ window.customElements.define('h-tabs', class extends HTMLElement {
       this.$tabs = this.$tabSlot.assignedNodes({ flatten: true })
       this.$panels = this.$panelSlot.assignedNodes({ flatten: true })
         .filter(el => el.nodeType === Node.ELEMENT_NODE)
+      numTabs = this.$panels.length
       this.selected = this._findFirstSelectedTab()
       this.updateWidth()
     })
@@ -154,9 +107,10 @@ window.customElements.define('h-tabs', class extends HTMLElement {
       if (evt.target.slot === 'navigation') {
         this.selected = this.$tabs.indexOf(evt.target)
         evt.target.focus()
+        let panelOffset = this.selected * (-100 / numTabs).toFixed(1)
+        this.$tabPanel.style.transform = `translateX(${panelOffset}%)`
       }
     })
-
   }
 
   get selected() {
@@ -166,9 +120,6 @@ window.customElements.define('h-tabs', class extends HTMLElement {
   set selected(idx) {
     this._selected = idx
     this._selectTab(idx)
-    // Updated the element's selected attribute value when
-    // backing property changes.
-    this.setAttribute('selected', idx)
   }
 
   _selectTab(idx = null) {
@@ -182,7 +133,7 @@ window.customElements.define('h-tabs', class extends HTMLElement {
   _findFirstSelectedTab() {
     let selectedIndex = 0
     this.$tabs.forEach((tab, i) => {
-      if (tab.hasAttribute('selected')) {
+      if (tab.hasAttribute('aria-selected')) {
         selectedIndex = i
       }
     })
