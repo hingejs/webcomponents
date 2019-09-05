@@ -10,7 +10,11 @@ You can use this package in addition to your own.
 
 ## Live demos
 
-https://hingejs.github.io/webcomponents/
+- https://hingejs.github.io/webcomponents/
+
+## Wiki
+
+- https://github.com/hingejs/generator/wiki#learn-to-build-custom-elements
 
 #### Related packages
 
