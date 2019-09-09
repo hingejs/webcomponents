@@ -1,6 +1,7 @@
 import './src/accordion-slider/index.js'
 import './src/characters-remaining/index.js'
 import './src/content-loader/index.js'
+import './src/field-validation/index.js'
 import './src/json-syntax/index.js'
 import './src/modal/index.js'
 import './src/route/index.js'

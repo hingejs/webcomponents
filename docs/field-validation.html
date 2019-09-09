@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Content loader</title>
+  <style type="text/css">
+    /* change the default css */
+    h-field-validation div {
+      color: blue;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+    <h-field-validation data-field-name="description"></h-field-validation>
+    <input type="text" name="description" required="required">
+
+
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@latest/src/field-validation/index.js"></script>
+
+  <script>
+    const $field = document.querySelector('[name="description"]')
+    $field.focus()
+    /*
+    $field.addEventListener('input', () => {
+      if($field.hasAttribute('required') && !$field.value.trim().length) {
+        $field.setCustomValidity('This is an error message')
+      } else {
+        $field.setCustomValidity('')
+      }
+      $field.checkValidity()
+    })
+    */
+  </script>
+
+</body>
+
+</html>

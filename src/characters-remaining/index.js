@@ -16,14 +16,14 @@ window.customElements.define('h-characters-remaining', class extends HTMLElement
   insertStyle() {
     const style = `
     <style type="text/css" id="characters-remaining">
-      characters-remaining div {
+      h-characters-remaining div {
           border: 1px solid var(--field-border);
           border-radius: 2px;
           display: flex;
           justify-content: space-between;
         }
 
-      characters-remaining span {
+      h-characters-remaining span {
         align-self: center;
         color: #232323;
         font-size: 0.65rem;
@@ -32,13 +32,13 @@ window.customElements.define('h-characters-remaining', class extends HTMLElement
         white-space: nowrap;
       }
 
-      characters-remaining textarea + span {
+      h-characters-remaining textarea + span {
         align-self: flex-end;
         padding-bottom: 0.8rem;
       }
 
-      characters-remaining input,
-      characters-remaining textarea {
+      h-characters-remaining input,
+      h-characters-remaining textarea {
         border: 0;
         font-size: 0.9rem;
         outline: 0;
@@ -46,7 +46,7 @@ window.customElements.define('h-characters-remaining', class extends HTMLElement
         width: 100%;
       }
 
-      characters-remaining textarea {
+      h-characters-remaining textarea {
         height: 6.8rem;
         resize: none;
       }
