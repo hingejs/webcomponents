@@ -22,6 +22,7 @@
     header.accordion-header {
       cursor: pointer;
       font-size: 1.8rem;
+      padding: 0.6rem;
     }
 
     header.accordion-header::after {
@@ -42,17 +43,22 @@
     .details-table {
       padding: 2rem;
     }
+
+    summary.expanded {
+      margin-top: 1rem;
+    }
   </style>
 </head>
 
 <body>
+  <button>Insert Summary Text</button>
     <h-accordion-slider>
         <section data-group="main">
           <header class="accordion-header expanded">
             Show Details
           </header>
           <summary>
-            <div class="details-table" data-automation-id="table-data">
+            <div class="details">
               Inserting data will allow the MutationObserver to pick up the
               dom changes and adjust the height
             </div>
@@ -60,7 +66,36 @@
         </section>
       </h-accordion-slider>
 
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@latest/src/accordion-slider/index.js"></script>
+  <script type="module" src="../src/accordion-slider/index.js"></script>
+  <script>
+    const $button = document.querySelector('button')
+    const $div = document.querySelector('.details')
+
+    $button.addEventListener('click', () => {
+      $div.insertAdjacentHTML('beforeend', sentence())
+    })
+
+    function sentence() {
+      const nouns = ["bird", "clock", "boy", "plastic", "duck", "teacher", "old lady", "professor", "hamster", "dog"]
+      const verbs = ["kicked", "ran", "flew", "dodged", "sliced", "rolled", "died", "breathed", "slept", "killed"]
+      const adjectives = ["beautiful", "lazy", "professional", "lovely", "dumb", "rough", "soft", "hot", "vibrating", "slimy"]
+      const adverbs = ["slowly", "elegantly", "precisely", "quickly", "sadly", "humbly", "proudly", "shockingly", "calmly", "passionately"]
+      const preposition = ["down", "into", "up", "on", "upon", "below", "above", "through", "across", "towards"]
+      const rand1 = Math.floor(Math.random() * 10)
+      const rand2 = Math.floor(Math.random() * 10)
+      const rand3 = Math.floor(Math.random() * 10)
+      const rand4 = Math.floor(Math.random() * 10)
+      const rand5 = Math.floor(Math.random() * 10)
+      const rand6 = Math.floor(Math.random() * 10)
+      return `<p>The ${adjectives[rand1]}  ${nouns[rand2]} ${adverbs[rand3]}
+        ${verbs[rand4]} because some ${nouns[rand1]} ${adverbs[rand1]}
+        ${verbs[rand1]} ${preposition[rand1]} a ${adjectives[rand2]}
+        ${nouns[rand5]} which, became a ${adjectives[rand3]} ${adjectives[rand4]}
+        ${nouns[rand6]}.</p>`
+    }
+
+
+  </script>
 </body>
 
 </html>
