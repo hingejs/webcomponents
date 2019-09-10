@@ -1,8 +1,10 @@
-window.customElements.define('h-modal-blur', class extends HTMLElement {
+const TAG_NAME = 'h-modal-blur'
+if (!window.customElements.get(TAG_NAME)) {
+  window.customElements.define(TAG_NAME, class extends window.HTMLElement {
 
-  _generateTemplate() {
-    const template = document.createElement('template')
-    template.innerHTML = `
+    _generateTemplate() {
+      const template = document.createElement('template')
+      template.innerHTML = `
       <style>
         .cover {
           transition: 0.1s all ease;
@@ -16,33 +18,34 @@ window.customElements.define('h-modal-blur', class extends HTMLElement {
           <slot></slot>
       </div>
     `.trim()
-    return template
-  }
+      return template
+    }
 
-  constructor() {
-    super()
-    const shadowRoot = this.attachShadow({ mode: 'open' })
-    shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
-    this.modalCover = this.shadowRoot.querySelector('div.cover')
-  }
+    constructor() {
+      super()
+      const shadowRoot = this.attachShadow({ mode: 'open' })
+      shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+      this.modalCover = this.shadowRoot.querySelector('div.cover')
+    }
 
-  connectedCallback() {
-    this.render()
-  }
-
-  static get observedAttributes() {
-    return ['data-blur']
-  }
-
-  attributeChangedCallback(attr, oldValue, newValue) {
-    if (oldValue !== newValue) {
+    connectedCallback() {
       this.render()
     }
-  }
 
-  render() {
-    const isBlurred = this.getAttribute('data-blur') === 'true'
-    this.modalCover.classList.toggle('blur', isBlurred)
-  }
+    static get observedAttributes() {
+      return ['data-blur']
+    }
 
-})
+    attributeChangedCallback(attr, oldValue, newValue) {
+      if (oldValue !== newValue) {
+        this.render()
+      }
+    }
+
+    render() {
+      const isBlurred = this.getAttribute('data-blur') === 'true'
+      this.modalCover.classList.toggle('blur', isBlurred)
+    }
+
+  })
+}

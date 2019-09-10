@@ -1,17 +1,19 @@
-window.customElements.define('h-content-loader', class extends HTMLElement {
+const TAG_NAME = 'h-content-loader'
+if (!window.customElements.get(TAG_NAME)) {
+  window.customElements.define(TAG_NAME, class extends window.HTMLElement {
 
-  constructor() {
-    super()
-    const shadowRoot = this.attachShadow({ mode: 'open' })
-    shadowRoot.appendChild(this.generateTemplate().content.cloneNode(true))
-    this.$loader = this.shadowRoot.querySelector('div.content')
-  }
+    constructor() {
+      super()
+      const shadowRoot = this.attachShadow({ mode: 'open' })
+      shadowRoot.appendChild(this.generateTemplate().content.cloneNode(true))
+      this.$loader = this.shadowRoot.querySelector('div.content')
+    }
 
-  generateTemplate() {
+    generateTemplate() {
 
-    const template = document.createElement('template')
+      const template = document.createElement('template')
 
-    template.innerHTML = `
+      template.innerHTML = `
       <style>
         .content {
           background-color: var(--background, transparent);
@@ -71,41 +73,42 @@ window.customElements.define('h-content-loader', class extends HTMLElement {
         <slot></slot>
       </div>
     `
-    return template
-  }
+      return template
+    }
 
-  connectedCallback() {
-    this._render()
-  }
-
-  static get observedAttributes() {
-    return ['data-loading']
-  }
-
-  attributeChangedCallback(attr, oldValue, newValue) {
-    if (oldValue !== newValue) {
+    connectedCallback() {
       this._render()
     }
-  }
 
-  _render() {
-    if (this.isLoading()) {
-      this.$loader.classList.add('is-loading')
-    } else {
-      this.$loader.classList.remove('is-loading')
+    static get observedAttributes() {
+      return ['data-loading']
     }
-  }
 
-  isLoading() {
-    return this.getAttribute('data-loading') === 'true'
-  }
+    attributeChangedCallback(attr, oldValue, newValue) {
+      if (oldValue !== newValue) {
+        this._render()
+      }
+    }
 
-  loading() {
-    this.dataset.loading = true
-  }
+    _render() {
+      if (this.isLoading()) {
+        this.$loader.classList.add('is-loading')
+      } else {
+        this.$loader.classList.remove('is-loading')
+      }
+    }
 
-  done() {
-    this.dataset.loading = false
-  }
+    isLoading() {
+      return this.getAttribute('data-loading') === 'true'
+    }
 
-})
+    loading() {
+      this.dataset.loading = true
+    }
+
+    done() {
+      this.dataset.loading = false
+    }
+
+  })
+}

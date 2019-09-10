@@ -1,8 +1,10 @@
-window.customElements.define('h-modal-popup', class extends HTMLElement {
+const TAG_NAME = 'h-modal-popup'
+if (!window.customElements.get(TAG_NAME)) {
+  window.customElements.define(TAG_NAME, class extends window.HTMLElement {
 
-  _generateTemplate() {
-    const template = document.createElement('template')
-    template.innerHTML = `
+    _generateTemplate() {
+      const template = document.createElement('template')
+      template.innerHTML = `
       <style>
         .modal {
           align-items: center;
@@ -161,117 +163,118 @@ window.customElements.define('h-modal-popup', class extends HTMLElement {
         </div>
       </div>
     `.trim()
-    return template
-  }
+      return template
+    }
 
-  constructor() {
-    super()
-    const shadowRoot = this.attachShadow({ mode: 'open' })
-    shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
-    this.btnClose = this.shadowRoot.querySelector('div.close')
-    this.modal = this.shadowRoot.querySelector('div.modal')
-    this.modalPopup = this.shadowRoot.querySelector('div.popup')
-    this.modalBG = this.shadowRoot.querySelector('div.background')
-    this.modalBlur = document.querySelector('modal-blur')
-    this.closePopupBind = this.closePopup.bind(this)
-  }
+    constructor() {
+      super('')
+      const shadowRoot = this.attachShadow({ mode: 'open' })
+      shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+      this.btnClose = this.shadowRoot.querySelector('div.close')
+      this.modal = this.shadowRoot.querySelector('div.modal')
+      this.modalPopup = this.shadowRoot.querySelector('div.popup')
+      this.modalBG = this.shadowRoot.querySelector('div.background')
+      this.modalBlur = document.querySelector('modal-blur')
+      this.closePopupBind = this.closePopup.bind(this)
+    }
 
-  connectedCallback() {
-    this.btnClose.addEventListener('click', this.closePopupBind)
-    this.modalBG.addEventListener('click', this.closePopupBind)
-    this.render()
-  }
-
-  resetScroll() {
-    this.modalPopup.scroll({
-      top: 0,
-    })
-  }
-
-  static get observedAttributes() {
-    return ['data-show', 'data-allow-close', 'data-position', 'data-allow-screen-click', 'data-is-large']
-  }
-
-  attributeChangedCallback(attr, oldValue, newValue) {
-    if (oldValue !== newValue) {
+    connectedCallback() {
+      this.btnClose.addEventListener('click', this.closePopupBind)
+      this.modalBG.addEventListener('click', this.closePopupBind)
       this.render()
     }
-  }
 
-  disconnectedCallback() {
-    this.btnClose.removeEventListener('click', this.closePopupBind)
-    this.modalBG.removeEventListener('click', this.closePopupBind)
-  }
-
-  render() {
-    let allowClose = true
-    let showModal = false
-    let position = 'center'
-    let hideBG = false
-
-    if(this.dataset.isLarge) {
-      this.modalPopup.classList.add('large')
-    } else {
-      this.modalPopup.classList.remove('large')
+    resetScroll() {
+      this.modalPopup.scroll({
+        top: 0,
+      })
     }
 
-    if (this.dataset.show && this.dataset.show.toLowerCase() === 'true') {
-      showModal = true
-    }
-    if (this.dataset.allowClose && this.dataset.allowClose.toLowerCase() === 'false') {
-      allowClose = false
-    }
-    if (this.dataset.allowScreenClick && this.dataset.allowScreenClick.toLowerCase() === 'true') {
-      hideBG = true
-    }
-    if (this.dataset.position) {
-      position = this.dataset.position.toLowerCase()
+    static get observedAttributes() {
+      return ['data-show', 'data-allow-close', 'data-position', 'data-allow-screen-click', 'data-is-large']
     }
 
-    if (this.modalBlur) {
-      this.modalBlur.dataset.blur = 'false'
-    }
-    // reset Modal
-    this.modal.classList.remove('is-active', 'side', 'right', 'left')
-    this.modal.classList.add('bg-is-active')
-    this.modalPopup.classList.remove('popup-side')
-    this.btnClose.classList.remove('hide-content')
-
-    if (!allowClose) {
-      this.btnClose.classList.add('hide-content')
-    }
-
-    if (hideBG) {
-      this.modalBlur.dataset.blur = 'false'
-      this.modal.classList.remove('bg-is-active')
-    }
-
-    if (position && ['right', 'left'].indexOf(position) > -1) {
-      this.modal.classList.add('side', position)
-      this.modalPopup.classList.add('popup-side')
-    }
-
-    if (showModal) {
-      this.modal.classList.add('is-active')
-      if (this.modalBlur) {
-        this.modalBlur.dataset.blur = 'true'
+    attributeChangedCallback(attr, oldValue, newValue) {
+      if (oldValue !== newValue) {
+        this.render()
       }
     }
-  }
 
-  closePopup() {
-    let allowClose = true
-    if (this.dataset.allowClose && this.dataset.allowClose.toLowerCase() === 'false') {
-      allowClose = false
+    disconnectedCallback() {
+      this.btnClose.removeEventListener('click', this.closePopupBind)
+      this.modalBG.removeEventListener('click', this.closePopupBind)
     }
-    if (allowClose) {
-      this.dataset.show = false
+
+    render() {
+      let allowClose = true
+      let showModal = false
+      let position = 'center'
+      let hideBG = false
+
+      if (this.dataset.isLarge) {
+        this.modalPopup.classList.add('large')
+      } else {
+        this.modalPopup.classList.remove('large')
+      }
+
+      if (this.dataset.show && this.dataset.show.toLowerCase() === 'true') {
+        showModal = true
+      }
+      if (this.dataset.allowClose && this.dataset.allowClose.toLowerCase() === 'false') {
+        allowClose = false
+      }
+      if (this.dataset.allowScreenClick && this.dataset.allowScreenClick.toLowerCase() === 'true') {
+        hideBG = true
+      }
+      if (this.dataset.position) {
+        position = this.dataset.position.toLowerCase()
+      }
+
+      if (this.modalBlur) {
+        this.modalBlur.dataset.blur = 'false'
+      }
+      // reset Modal
+      this.modal.classList.remove('is-active', 'side', 'right', 'left')
+      this.modal.classList.add('bg-is-active')
+      this.modalPopup.classList.remove('popup-side')
+      this.btnClose.classList.remove('hide-content')
+
+      if (!allowClose) {
+        this.btnClose.classList.add('hide-content')
+      }
+
+      if (hideBG) {
+        this.modalBlur.dataset.blur = 'false'
+        this.modal.classList.remove('bg-is-active')
+      }
+
+      if (position && ['right', 'left'].indexOf(position) > -1) {
+        this.modal.classList.add('side', position)
+        this.modalPopup.classList.add('popup-side')
+      }
+
+      if (showModal) {
+        this.modal.classList.add('is-active')
+        if (this.modalBlur) {
+          this.modalBlur.dataset.blur = 'true'
+        }
+      }
     }
-    this.dispatchEvent(new CustomEvent('popup-closed'))
-  }
 
-  isOpen() {
-    return this.getAttribute('data-show') &&  this.dataset.show.toLowerCase() === 'true'
-  }
+    closePopup() {
+      let allowClose = true
+      if (this.dataset.allowClose && this.dataset.allowClose.toLowerCase() === 'false') {
+        allowClose = false
+      }
+      if (allowClose) {
+        this.dataset.show = false
+      }
+      this.dispatchEvent(new CustomEvent('popup-closed'))
+    }
 
-})
+    isOpen() {
+      return this.getAttribute('data-show') && this.dataset.show.toLowerCase() === 'true'
+    }
+
+  })
+}

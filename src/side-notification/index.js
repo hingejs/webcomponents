@@ -1,15 +1,17 @@
-window.customElements.define('h-side-notification', class extends HTMLElement {
+const TAG_NAME = 'h-side-notification'
+if (!window.customElements.get(TAG_NAME)) {
+  window.customElements.define(TAG_NAME, class extends window.HTMLElement {
 
-  constructor() {
-    super()
-    const shadowRoot = this.attachShadow({ mode: 'open' })
-    shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
-    this.$list = this.shadowRoot.querySelector('div.list')
-  }
+    constructor() {
+      super('')
+      const shadowRoot = this.attachShadow({ mode: 'open' })
+      shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+      this.$list = this.shadowRoot.querySelector('div.list')
+    }
 
-  addNotification({ message = '', time = 10, title = '', type = 'info' }) {
-    const uuid = new Date().getTime().toString(36) + performance.now().toString().replace(/[^0-9]/g, '')
-    const newNotificationHTML = `
+    addNotification({ message = '', time = 10, title = '', type = 'info' }) {
+      const uuid = new Date().getTime().toString(36) + performance.now().toString().replace(/[^0-9]/g, '')
+      const newNotificationHTML = `
       <div id="notification-${uuid}" class="item">
         <div class="exit-icon">
           <svg height="30" width="30" viewbox="0 0 40 40">
@@ -24,34 +26,34 @@ window.customElements.define('h-side-notification', class extends HTMLElement {
         </div>
       </div>
     `
-    this.$list.insertAdjacentHTML('afterbegin', newNotificationHTML)
-    const $notification = this.$list.querySelector(`#notification-${uuid}`)
-    const $exitIcon = $notification.querySelector('.exit-icon')
-    const $circle = $notification.querySelector('.circle')
-    const closeNotification = () => {
-      $notification.classList.add('fade')
+      this.$list.insertAdjacentHTML('afterbegin', newNotificationHTML)
+      const $notification = this.$list.querySelector(`#notification-${uuid}`)
+      const $exitIcon = $notification.querySelector('.exit-icon')
+      const $circle = $notification.querySelector('.circle')
+      const closeNotification = () => {
+        $notification.classList.add('fade')
+      }
+      $exitIcon.addEventListener('click', closeNotification)
+      $circle.style['animation-duration'] = `${time}s`
+      $circle.addEventListener('animationend', closeNotification)
+
+      $notification.addEventListener('transitionend', () => {
+        $notification.remove()
+      })
+
+      $notification.addEventListener('mouseover', () => {
+        $circle.classList.remove('circle')
+      })
+
+      $notification.addEventListener('mouseout', () => {
+        $circle.classList.add('circle')
+      })
+
     }
-    $exitIcon.addEventListener('click', closeNotification)
-    $circle.style['animation-duration'] = `${time}s`
-    $circle.addEventListener('animationend', closeNotification)
 
-    $notification.addEventListener('transitionend', () => {
-      $notification.remove()
-    })
-
-    $notification.addEventListener('mouseover', () => {
-      $circle.classList.remove('circle')
-    })
-
-    $notification.addEventListener('mouseout', () => {
-      $circle.classList.add('circle')
-    })
-
-  }
-
-  _generateTemplate() {
-    const template = document.createElement('template')
-    template.innerHTML = `
+    _generateTemplate() {
+      const template = document.createElement('template')
+      template.innerHTML = `
     <style>
         div.list {
           display:flex;
@@ -142,7 +144,8 @@ window.customElements.define('h-side-notification', class extends HTMLElement {
       </style>
       <div class="list"></div>
       `.trim()
-    return template
-  }
+      return template
+    }
 
-})
+  })
+}
