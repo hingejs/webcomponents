@@ -8,6 +8,13 @@ You can use this package in addition to your own.
 
 > This is a work in progress until a 1.0.0 release.
 
+## Goals
+
+[x] Use native JS for little to no dependency
+[x] Cross browser support
+[x] Flexible for CSS
+[x] Unit tested
+
 ## Live demos
 
 - https://hingejs.github.io/webcomponents/
