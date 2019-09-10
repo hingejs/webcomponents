@@ -10,10 +10,10 @@ You can use this package in addition to your own.
 
 ## Goals
 
-  [x] Use native JS for little to no dependency
-  [x] Cross browser support
-  [x] Flexible for CSS
-  [x] Unit tested
+- [x] Use native JS for little to no dependency
+- [x] Cross browser support
+- [x] Flexible for CSS
+- [x] Unit tested
 
 ## Live demos
 
