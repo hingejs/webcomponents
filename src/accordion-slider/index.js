@@ -1,10 +1,8 @@
 const TAG_NAME = 'h-accordion-slider'
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends window.HTMLElement {
-
-
     constructor() {
-      super()
+      super('')
       this.attachShadow({ mode: 'open' })
         .appendChild(this._generateTemplate().content.cloneNode(true))
     }
@@ -16,7 +14,7 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     connectedCallback() {
-      this.observerConfig = { attributes: false, childList: true, subtree: true }
+      this.observerConfig = { attributeFilter: ['class', 'style'], attributes: true, childList: true, subtree: true }
       const accordionObserver = new MutationObserver(this.newSummary.bind(this))
       accordionObserver.observe(this, this.observerConfig)
       this.summaryObserver = new MutationObserver(this.adjustAllSummaryHeights.bind(this))
@@ -25,14 +23,10 @@ if (!window.customElements.get(TAG_NAME)) {
 
     toggleExpanded(header, summary, section) {
       header.classList.toggle('expanded')
-      if (header.classList.contains('expanded')) {
-        summary.classList.add('expanded')
-        section.classList.add('expanded')
-      } else {
-        summary.classList.remove('expanded')
-        section.classList.remove('expanded')
-      }
-      this.adjustAllSummaryHeights(summary)
+      const doExpand = header.classList.contains('expanded')
+      summary.classList.toggle('expanded', doExpand)
+      section.classList.toggle('expanded', doExpand)
+      this.adjustAllSummaryHeights()
     }
 
     newSummary() {
@@ -74,12 +68,9 @@ if (!window.customElements.get(TAG_NAME)) {
       this.adjustAllSummaryHeights()
     }
 
-    async adjustAllSummaryHeights(filterSummary = null) {
+    async adjustAllSummaryHeights() {
       const summaries = [...this.querySelectorAll('summary')]
-      await Promise.all(summaries.filter(summary => summary === filterSummary).map(async summary =>
-        await this._setSummaryHeight(summary)
-      ))
-      await Promise.all(summaries.filter(summary => summary !== filterSummary).map(async summary =>
+      await Promise.all(summaries.map(async summary =>
         await this._setSummaryHeight(summary)
       ))
     }
@@ -104,8 +95,8 @@ if (!window.customElements.get(TAG_NAME)) {
       })
     }
 
-    _setSummaryHeight(summary) {
-      summary.dataset.maxHeight = this._getHeight(summary)
+    async _setSummaryHeight(summary) {
+      summary.dataset.maxHeight = await this._getHeight(summary)
       let height = '0'
       if (summary.classList.contains('expanded')) {
         height = `${summary.dataset.maxHeight}px`
@@ -121,7 +112,7 @@ if (!window.customElements.get(TAG_NAME)) {
             return
           }
           el.removeEventListener('transitionend', transitionEnded)
-          resolve()
+          resolve(el)
         }
         el.addEventListener('transitionend', transitionEnded)
         el.style[property] = value
@@ -135,10 +126,14 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     _getHeight(target) {
-      const style = window.getComputedStyle(target)
-      return ~~['height', 'padding-top', 'padding-bottom', 'margin-top', 'margin-bottom']
-        .map(key => parseInt(style.getPropertyValue(key), 10))
-        .reduce((prev, cur) => prev + cur, ~~target.scrollHeight)
+      return new Promise(resolve => {
+        window.requestAnimationFrame(() => {
+          const style = window.getComputedStyle(target)
+          resolve(~~['height', 'padding-top', 'padding-bottom', 'margin-top', 'margin-bottom']
+            .map(key => parseInt(style.getPropertyValue(key), 10))
+            .reduce((prev, cur) => prev + cur, ~~target.scrollHeight))
+        })
+      })
     }
 
   })
