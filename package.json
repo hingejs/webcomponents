@@ -5,10 +5,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "lint:js": "./node_modules/.bin/eslint -c ./.eslintrc --ext .js ./src",
-    "lint:css": "./node_modules/.bin/stylelint './src/**/*.css' .'/src/**/*.html'",
-    "lint": "npm run lint:css && npm run lint:js",
-    "test": "./node_modules/.bin/karma start test/karma.config.js"
+    "docs": "./node_modules/.bin/jsdoc -c ./jsdocs/config.json",
+    "lint": "./node_modules/.bin/eslint --fix -c ./.eslintrc --ext .js ./src",
+    "test": "npm run lint && npm run unit",
+    "unit": "./node_modules/.bin/karma start test/karma.config.js"
   },
   "keywords": [
     "custom elements",
@@ -30,6 +30,7 @@
     "chai": "^4.2.0",
     "eslint": "^5.10.0",
     "istanbul-instrumenter-loader": "^3.0.1",
+    "jsdoc": "^3.6.3",
     "karma": "^4.2.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -39,8 +40,6 @@
     "karma-webpack": "^3.0.5",
     "mocha": "^5.2.0",
     "sinon": "^7.2.3",
-    "stylelint": "^9.9.0",
-    "stylelint-config-standard": "^18.2.0",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
   }

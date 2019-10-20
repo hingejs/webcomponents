@@ -1,9 +1,25 @@
+/**
+ * @component
+ * @since 1.0.0
+ * @summary Input characters remaining.
+ * @fileoverview Used for keeping track of the number of characters left in a textarea
+ * or input before the user reaches the maximum number of characters
+ * @property maxLength {number} maximum number of characters allowed
+ * @example
+ * // Wrap the textarea or input tag with a <char-remaining> tag
+ * // maxlength is a required attribute for this component
+ *  <char-remaining>
+ *    <textarea id="description" name="description" required="required" maxlength="2000" placeholder="Add Package Description"></textarea>
+ *  </char-remaining>
+ */
+
 const TAG_NAME = 'h-characters-remaining'
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends window.HTMLElement {
 
     constructor() {
       super()
+      /** @type {Function} */
       this.updateCharBind = this.updateChar.bind(this)
     }
 
@@ -88,6 +104,10 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
+    /**
+     * Updates the character counter
+     * @memberof char-remaining
+     */
     updateChar() {
       if (this.$userInput) {
         const maxLen = this.$userInput.maxLength

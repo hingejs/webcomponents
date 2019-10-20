@@ -1,3 +1,12 @@
+/**
+ * @component
+ * @since 1.0.0
+ * @fileoverview Used for keeping track of field errors and displaying an in-line message to the user
+ * @property data-field-name {string} input field name attribute
+ * @example
+ *  <field-validation data-field-name="description"></field-validation>
+ *  <input type="text" name="description" required="required" />
+ */
 const TAG_NAME = 'h-field-validation'
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends window.HTMLElement {
@@ -52,6 +61,15 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
+    /**
+     * Check if error should be displayed to the user
+     * @memberof field-validation
+     * @example
+     * // Note that there are event listeners that do this automatically
+     * // Manually doing this is not really necessary
+     * const fieldValidation = document.querySelector('field-validation')
+     * fieldValidation.handleInvalidField()
+     */
     handleInvalidField() {
       let isValid = this.$targetInputs.every(input => input.validity.valid)
       if (!isValid) {
@@ -61,6 +79,14 @@ if (!window.customElements.get(TAG_NAME)) {
       }
     }
 
+    /**
+     * remove error message shown to user
+     * @memberof field-validation
+     * @example
+     * // Recommend to have a better selector
+     * const fieldValidation = document.querySelector('field-validation')
+     * fieldValidation.resetField()
+     */
     resetField() {
       this.$div.innerText = ''
     }
