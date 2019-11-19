@@ -1,3 +1,4 @@
 {
-  "test": { "title": "Test Page" }
+  "test": { "title": "Test Page" },
+  "route": { "title": "Router" }
 }

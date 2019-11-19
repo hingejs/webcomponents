@@ -1,5 +1,5 @@
 /**
- * @component
+ * @customelement
  * @since 1.0.0
  * @fileoverview Used for keeping track of field errors and displaying an in-line message to the user
  * @property data-field-name {string} input field name attribute

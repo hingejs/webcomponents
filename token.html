@@ -1,0 +1,154 @@
+<ul>
+<li><a href="#for-attributes-use-data-"><span data-i18n="test-3-1"></span></a></li>
+<li><a href="#updating-css-variables"><span data-i18n="test-8-1"></span></a></li>
+<li><a href="#get-slot-elements"><span data-i18n="test-13-1"></span></a></li>
+<li><a href="#reason-to-use-disconnectedcallback"><span data-i18n="test-18-1"></span></a></li>
+<li><a href="#need-a-uuid"><span data-i18n="test-23-1"></span></a></li>
+<li><a href="#adding-css-once-for-non-shadow-dom-elements"><span data-i18n="test-28-1"></span></a></li>
+<li><a href="#check-if-a-custom-element-is-defined"><span data-i18n="test-33-1"></span></a></li>
+</ul>
+<hr>
+<h1><span data-i18n="test-39-0"></span></h1>
+<p><span data-i18n="test-42-0"></span><code>data-*</code><span data-i18n="test-42-2"></span><code>observedAttributes()</code><span data-i18n="test-42-4"></span></p>
+<pre><code class="undefinedjs">static get observedAttributes() {
+  return [&#39;data-selected&#39;]
+}
+
+attributeChangedCallback(attr, oldValue, newValue) {
+  if (oldValue !== newValue) {
+    this.render()
+  }
+}
+
+render() {
+  const isSelected = this.getAttribute(&#39;data-selected&#39;) === &#39;true&#39;
+  this.currentTab.classList.toggle(&#39;selected&#39;, isSelected)
+}
+</code></pre>
+<h1><span data-i18n="test-46-0"></span></h1>
+<p><span data-i18n="test-49-0"></span></p>
+<pre><code class="undefinedcss">&lt;style&gt;
+:host {
+  --tabs-width: 100px;
+}
+&lt;&#x2F;style&gt;
+</code></pre>
+<pre><code class="undefinedjs">this.rootStyle = this.findCSSSelectorText(this.shadowRoot, &#39;:host&#39;)
+this.rootStyle.style.setProperty(&#39;--tabs-width&#39;, `${newVal}%`)
+
+findCSSSelectorText(element, selector) {
+    let result
+    const sheets = [...element.styleSheets]
+    const len = sheets.length
+    for (let i = 0; i &lt; len; i++) {
+      result = [...sheets[i].cssRules].find(rule =&gt; rule.selectorText === selector)
+      if (result) {
+        break
+      }
+    }
+    return result
+  }
+
+</code></pre>
+<h1><span data-i18n="test-54-0"></span></h1>
+<p><span data-i18n="test-57-0"></span></p>
+<pre><code class="undefinedhtml"> &lt;h-tabs&gt;
+    &lt;button slot=&quot;navigation&quot;&gt;Tab1&lt;&#x2F;button&gt;
+    &lt;button slot=&quot;navigation&quot;&gt;Tab2&lt;&#x2F;button&gt;
+    &lt;section&gt;Tab 1&lt;&#x2F;section&gt;
+    &lt;section&gt;Tab 2&lt;&#x2F;section&gt;
+&lt;&#x2F;h-tabs&gt;
+</code></pre>
+<p><span data-i18n="test-61-0"></span></p>
+<pre><code class="undefinedhtml">&lt;div class=&quot;tab-navigation&quot;&gt;
+  &lt;slot id=&quot;tabSlot&quot; name=&quot;navigation&quot;&gt;&lt;&#x2F;slot&gt;
+&lt;&#x2F;div&gt;
+&lt;div id=&quot;tabPanel&quot; class=&quot;tab-panel&quot;&gt;
+  &lt;slot id=&quot;panelSlot&quot;&gt;&lt;&#x2F;slot&gt;
+&lt;&#x2F;div&gt;
+</code></pre>
+<pre><code class="undefinedjs">constructor() {
+    super()
+    const shadowRoot = this.attachShadow({ mode: &#39;open&#39; })
+    shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
+    this.$tabSlot = this.shadowRoot.querySelector(&#39;#tabSlot&#39;)
+    this.$panelSlot = this.shadowRoot.querySelector(&#39;#panelSlot&#39;)
+   
+    this.$tabSlot.addEventListener(&#39;slotchange&#39;, () =&gt; {
+      this.$tabs = this.$tabSlot.assignedNodes({ flatten: true })
+      this.$panels = this.$panelSlot.assignedNodes({ flatten: true })
+        .filter(el =&gt; el.nodeType === Node.ELEMENT_NODE)
+    })
+}
+</code></pre>
+<h1><span data-i18n="test-66-0"></span></h1>
+<p><span data-i18n="test-69-0"></span></p>
+<blockquote>
+<p><span data-i18n="test-73-0"></span></p>
+</blockquote>
+<pre><code class="undefinedjs">constructor() {
+    super()
+    this._isActivatedBind = this._isActivated.bind(this)
+  }
+
+  connectedCallback() {
+    window.addEventListener(&#39;focus&#39;, this._isActivatedBind)
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener(&#39;focus&#39;, this._isActivatedBind)
+  }
+</code></pre>
+<h1><span data-i18n="test-78-0"></span></h1>
+<pre><code class="undefinedjs">const uuid = new Date().getTime().toString(36) + performance.now().toString().replace(&#x2F;[^0-9]&#x2F;g, &#39;&#39;)
+</code></pre>
+<h1><span data-i18n="test-82-0"></span></h1>
+<pre><code class="undefinedjs">_insertStyle() {
+    const style = `
+    &lt;style type=&quot;text&#x2F;css&quot; id=&quot;${name}-style&quot;&gt;
+      ${name} p {
+        border: 1px solid var(--${name}-border-color, #111);
+        border-radius: 2px;
+        display: flex;
+        justify-content: space-between;
+      }
+    &lt;&#x2F;style&gt;`
+    const elem = document.head || this.parentElement || this
+    if (!elem.querySelector(&#39;#${name}-style&#39;)) {
+      elem.insertAdjacentHTML(&#39;afterbegin&#39;, style)
+    }
+  }
+
+connectedCallback() {
+  this._insertStyle()
+  this._generateTemplate()
+}
+</code></pre>
+<h1><span data-i18n="test-86-0"></span></h1>
+<ul>
+<li><span data-i18n="test-91-0"></span></li>
+</ul>
+<pre><code class="undefinedjs">if(window.customElements.get(&#39;my-custom-eleemnt&#39;)) {
+  ...
+}
+</code></pre>
+<p><span data-i18n="test-97-0"></span></p>
+<pre><code class="undefinedjs">window.customElements.whenDefined(&#39;my-custom-eleemnt&#39;).then(() =&gt; {
+   ...
+})
+</code></pre>
+<p><span data-i18n="test-101-0"></span></p>
+<blockquote>
+<p><span data-i18n="test-105-0"></span></p>
+</blockquote>
+<pre><code class="undefinedjs">function customElementsDefined() {
+  const undefinedElements = document.querySelectorAll(&#39;:not(:defined)&#39;)
+  return Promise.all([...undefinedElements].map(
+    elem =&gt; window.customElements.whenDefined(elem.localName)
+  ))
+}
+
+&#x2F;&#x2F; use
+await customElementsDefined()
+&#x2F;&#x2F; all elements Defined
+</code></pre>

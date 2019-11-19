@@ -1,0 +1,34 @@
+{
+  "___id": "T000002R000051",
+  "___s": true,
+  "comment": "/**\n * @customelement char-remaining\n * @since 1.0.0\n * @summary Input characters remaining.\n * @fileoverview Used for keeping track of the number of characters left in a textarea\n * or input before the user reaches the maximum number of characters\n * @property maxLength {number} maximum number of characters allowed\n * @example\n * // Wrap the textarea or input tag with a <char-remaining> tag\n * // maxlength is a required attribute for this component\n *  <char-remaining>\n *    <textarea id=\"description\" name=\"description\" required=\"required\" maxlength=\"2000\" placeholder=\"Add Package Description\"></textarea>\n *  </char-remaining>\n */",
+  "customelements": [
+    {
+      "name": "char-remaining"
+    }
+  ],
+  "description": "<p>Used for keeping track of the number of characters left in a textarea\nor input before the user reaches the maximum number of characters</p><pre><code>&lt;char-remaining maxLength=\"[number]\"&gt;&lt;/char-remaining&gt;</code></pre>",
+  "examples": [
+    "// Wrap the textarea or input tag with a <char-remaining> tag\n// maxlength is a required attribute for this component\n <char-remaining>\n   <textarea id=\"description\" name=\"description\" required=\"required\" maxlength=\"2000\" placeholder=\"Add Package Description\"></textarea>\n </char-remaining>"
+  ],
+  "kind": "class",
+  "longname": "char-remaining",
+  "meta": {
+    "filename": "index.js",
+    "lineno": 1,
+    "columnno": 0,
+    "path": "/Users/gforti/Documents/webcomponents/src/characters-remaining"
+  },
+  "name": "char-remaining",
+  "preserveName": true,
+  "properties": [
+    {
+      "type": "[Object]",
+      "description": "<p>maximum number of characters allowed</p>",
+      "name": "maxLength"
+    }
+  ],
+  "scope": "global",
+  "since": "1.0.0",
+  "summary": "<p>Input characters remaining.</p>"
+}

@@ -1,0 +1,56 @@
+
+  <html>
+  <head>
+  <style>
+    h-route-link {
+      border: 1px solid blue;
+      cursor: pointer;
+      padding: 1rem;
+    }
+    h-route-link:hover {
+      background-color: blue;
+      color: white;
+    }
+  </style>
+  </head>
+    <body>
+    <p><button class="en">English</button>
+    <button class="es">Spanish</button>
+    </p>
+    <h-route-link data-route="/">Home</h-route-link>
+    <h-route-link data-route="tutorials/route">Router</h-route-link>
+<h-route-link data-route="tutorials/test">Test Page</h-route-link>
+    <h-route-display></h-route-display>
+    <script type="module">
+    import HtmlCache from './html-cache.js'
+    import 'https://cdn.jsdelivr.net/npm/@hingejs/webcomponents@latest/index.min.js'
+    import { I18n, Router } from 'https://cdn.jsdelivr.net/npm/@hingejs/services/index.min.js'
+    I18n.loadPath = './${lang}.json'
+    I18n.enableDocumentObserver()
+
+    document.querySelector('button.en').addEventListener('click', () => {
+      I18n.setLocale('en')
+    })
+
+    document.querySelector('button.es').addEventListener('click', () => {
+      I18n.setLocale('es')
+    })
+
+    Router.defaultPath('/', async (req, next) => {
+      const routeDisplay = document.querySelector('h-route-display')
+      await routeDisplay.insertContent(HtmlCache.get('index.html'))
+      next()
+    })
+    Router.setPath('tutorials/route', async (req, next) => {
+    const routeDisplay = document.querySelector('h-route-display')
+    await routeDisplay.insertContent(HtmlCache.get('tutorials/route.html'))
+    next()
+  })
+Router.setPath('tutorials/test', async (req, next) => {
+    const routeDisplay = document.querySelector('h-route-display')
+    await routeDisplay.insertContent(HtmlCache.get('tutorials/test.html'))
+    next()
+  })
+    </script>
+    </body></html>
+  
