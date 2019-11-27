@@ -18,8 +18,7 @@
     <button class="es">Spanish</button>
     </p>
     <h-route-link data-route="/">Home</h-route-link>
-    <h-route-link data-route="tutorials/route">Router</h-route-link>
-<h-route-link data-route="tutorials/test">Test Page</h-route-link>
+    <h-route-link data-route="h-characters-remaining">h-characters-remaining</h-route-link>
     <h-route-display></h-route-display>
     <script type="module">
     import HtmlCache from './html-cache.js'
@@ -41,14 +40,9 @@
       await routeDisplay.insertContent(HtmlCache.get('index.html'))
       next()
     })
-    Router.setPath('tutorials/route', async (req, next) => {
+    Router.setPath('h-characters-remaining', async (req, next) => {
     const routeDisplay = document.querySelector('h-route-display')
-    await routeDisplay.insertContent(HtmlCache.get('tutorials/route.html'))
-    next()
-  })
-Router.setPath('tutorials/test', async (req, next) => {
-    const routeDisplay = document.querySelector('h-route-display')
-    await routeDisplay.insertContent(HtmlCache.get('tutorials/test.html'))
+    await routeDisplay.insertContent(HtmlCache.get('h-characters-remaining.html'))
     next()
   })
     </script>

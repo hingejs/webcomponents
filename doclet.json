@@ -1,0 +1,47 @@
+{
+  "comment": "",
+  "meta": {
+    "range": [
+      717,
+      831
+    ],
+    "filename": "index.js",
+    "lineno": 18,
+    "columnno": 2,
+    "path": "/Users/gforti/Documents/webcomponents/src/characters-remaining",
+    "code": {
+      "id": "astnode100000752",
+      "name": "CharactersRemaining",
+      "type": "MethodDefinition",
+      "paramnames": []
+    }
+  },
+  "name": "CharactersRemaining",
+  "longname": "h-characters-remaining",
+  "kind": "class",
+  "scope": "global",
+  "classdesc": "<p>Used for keeping track of the number of characters left in a textarea\nor input before the user reaches the maximum number of characters</p>",
+  "summary": "<p>Input characters remaining.</p>",
+  "augments": [
+    "window.HTMLElement"
+  ],
+  "customelement": true,
+  "alias": "h-characters-remaining",
+  "since": "1.0.0",
+  "examples": [
+    "// Wrap the textarea or input tag with a <char-remaining> tag\n// maxlength is a required attribute for this component\n <char-remaining>\n   <textarea id=\"description\" name=\"description\" required=\"required\" maxlength=\"2000\" placeholder=\"Add Package Description\"></textarea>\n </char-remaining>"
+  ],
+  "properties": [
+    {
+      "type": {
+        "names": [
+          "number"
+        ]
+      },
+      "description": "<p>maximum number of characters allowed</p>",
+      "name": "maxLength"
+    }
+  ],
+  "___id": "T000002R000053",
+  "___s": true
+}

@@ -17,6 +17,20 @@ let routeJSCode = []
 
 let routeHTMLCode = []
 
+let finalJSON = {
+  "global-since": "Since",
+  "global-kind-class": "class",
+  "global-kind-function": "function",
+  "global-kind-member": "member",
+  "global-kind-constant": "constant",
+  "global-kind-typedef": "typedef",
+  "global-kind-unknown": "unknown",
+  "global-properties-type-number": "number",
+  "global-properties-type-string": "string",
+  "global-properties-type-unknown": "unknown",
+
+}
+
 
 
 /** @module publish */
@@ -32,37 +46,61 @@ let routeHTMLCode = []
 exports.publish = function (data, opts, tutorials) {
   // do stuff here to generate your output files
   data = helper.prune(data)
-  console.log('tutorials')
-  //console.log(tutorials)
-
-  let finalJSON = {}
 
 
-  tutorials.children.forEach(async (child) => {
-    //generateTutorial(child.title, 'Tutorial', child, helper.tutorialToUrl(child.name));
-    //saveChildren(child);
-    //child.parse()
-    //console.log(dom)
+  data().limit(1).each((doclet) => {
+    const url = helper.createLink(doclet)
+    helper.registerLink(doclet.longname, url)
+    // helper.longnameToUrl[doclet.longname]
+    //console.log(url)
 
-    //const el = _fragmentFromString(child.parse())
+    if (Array.isArray(doclet.examples)) {
+      doclet.examples = doclet.examples.map(modelExample)
+    }
+
+    const results = render(doclet)
 
 
 
-    let result = md.parse(child.content, { references: {} })
+    finalJSON = Object.assign({}, finalJSON, results.json)
+    html = html.concat(`HtmlCache.set('${doclet.longname}.html', '<template>${escapeHTMLContent(results.html)}</template>')`)
+    routeJSCode = routeJSCode.concat(newRouteCode(doclet.longname))
+    routeHTMLCode.push(`<h-route-link data-route="${doclet.longname}">${doclet.longname}</h-route-link>`)
 
-    let htmlResult = mRenderer.render(result, { key: child.name })
+    //TODO : SEE should link to something else
+    /*
+    if (doclet.see) {
+          doclet.see.forEach(function(seeItem, i) {
+              doclet.see[i] = hashToLink(doclet, seeItem)
+          })
+      }
+    */
 
-    //console.log(result)
 
-    //await writeFileProms('token.json', JSON.stringify(result, null, 2))
+    /*if (url.indexOf('#') > -1) {
+      doclet.id = helper.longnameToUrl[doclet.longname].split(/#/).pop();
+    }
+    else {
+      doclet.id = doclet.name;
+    }*/
 
-    finalJSON = Object.assign({}, finalJSON, htmlResult.json)
-    html = html.concat(`HtmlCache.set('tutorials/${child.name}.html', '<template>${escapeHTMLContent(htmlResult.html)}</template>')`)
-    routeJSCode = routeJSCode.concat(newRouteCode(`tutorials/${child.name}`))
-    routeHTMLCode.push(`<h-route-link data-route="tutorials/${child.name}">${child.title}</h-route-link>`)
+    /* if (needsSignature(doclet)) {
+       addSignatureParams(doclet);
+       addSignatureReturns(doclet);
+       addAttribs(doclet);
+     }*/
   })
 
+
+  data().limit(1).each((doclet) => {
+    // console.log('-----======FINAL DOC=====-------')
+    // console.log(doclet)
+    //writeFileProms('doclet.json', JSON.stringify(doclet, null, 2))
+  })
+
+
   writeFileProms('en.json', JSON.stringify(finalJSON, null, 2))
+  writeFileProms('es.json', JSON.stringify(finalJSON, null, 2))
   html.push('export default HtmlCache\n')
   writeFileProms('html-cache.js', html.join('\n'))
   //writeFileProms('routes.js', routeHTMLCode.join('\n'))
@@ -113,17 +151,72 @@ exports.publish = function (data, opts, tutorials) {
     </body></html>
   `)
 
-  data().limit(1).each((doclet) => {
-    // console.log('-----======FINAL DOC=====-------')
-    // console.log(doclet)
-  })
 
 
+}
 
-  //console.log('opts')
-  //console.log(opts)
-  //console.log('tutorials')
-  //console.log(tutorials)
+function render(doclet) {
+  let keys = {}
+  let i18nKeys = {
+    'classdesc': '',
+    'kind': '',
+    'since': 'global-since'
+  }
+
+  if (doclet.kind && finalJSON.hasOwnProperty(`global-kind-${doclet.kind}`)) {
+    i18nKeys['kind'] = `global-kind-${doclet.kind}`
+  } else if (doclet.kind && doclet.kind.trim().length) {
+    keys[`global-kind-custom-${doclet.kind}`] = doclet.kind
+    i18nKeys['kind'] = `global-kind-custom-${doclet.kind}`
+  } else {
+    i18nKeys['kind'] = 'global-kind-unknown'
+  }
+
+  if (doclet.classdesc) {
+    i18nKeys['classdesc'] = `${doclet.name}-classdesc`
+    keys[`${doclet.name}-classdesc`] = removeHTML(doclet.classdesc)
+  }
+
+
+  if (doclet.properties) {
+
+  }
+
+  let html = `
+    <header class="page-header">
+      <div class="symbol-detail-labels">
+        <span data-i18n="${i18nKeys.kind}" class="label label-kind"></span>
+      </div>
+      <h1><span class="symbol-name">${doclet.name}</span></h1>
+      <div class="symbol-classdesc">
+        <span data-i18n="${i18nKeys.classdesc}"></span>
+      </div>
+    </header>
+  `
+
+
+  return { html, json: keys }
+}
+
+function removeHTML(input) {
+  const re = /(<([^>]+)>)/gmi
+  return input.replace(re, '')
+}
+
+
+function modelExample(example) {
+  let caption
+  let code
+
+  if (example.match(/^\s*<caption>([\s\S]+?)<\/caption>(\s*[\n\r])([\s\S]+)$/i)) {
+    caption = RegExp.$1;
+    code = RegExp.$3;
+  }
+
+  return {
+    caption: caption || '',
+    code: code || example
+  }
 }
 
 
