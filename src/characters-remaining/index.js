@@ -4,7 +4,6 @@
 * @summary Input characters remaining.
 * @extends window.HTMLElement
 * @customelement
-* @alias h-characters-remaining
 * @since 1.0.0
 * @property maxLength {number} maximum number of characters allowed
 * @example
@@ -17,7 +16,6 @@
 class CharactersRemaining extends window.HTMLElement {
   constructor() {
     super('')
-    /** @type {Function} */
     this.updateCharBind = this.updateChar.bind(this)
   }
 

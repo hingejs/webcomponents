@@ -1,47 +1,114 @@
-{
-  "comment": "",
-  "meta": {
-    "range": [
-      717,
-      831
-    ],
-    "filename": "index.js",
-    "lineno": 18,
-    "columnno": 2,
-    "path": "/Users/gforti/Documents/webcomponents/src/characters-remaining",
-    "code": {
-      "id": "astnode100000752",
-      "name": "CharactersRemaining",
-      "type": "MethodDefinition",
-      "paramnames": []
-    }
-  },
-  "name": "CharactersRemaining",
-  "longname": "h-characters-remaining",
-  "kind": "class",
-  "scope": "global",
-  "classdesc": "<p>Used for keeping track of the number of characters left in a textarea\nor input before the user reaches the maximum number of characters</p>",
-  "summary": "<p>Input characters remaining.</p>",
-  "augments": [
-    "window.HTMLElement"
-  ],
-  "customelement": true,
-  "alias": "h-characters-remaining",
-  "since": "1.0.0",
-  "examples": [
-    "// Wrap the textarea or input tag with a <char-remaining> tag\n// maxlength is a required attribute for this component\n <char-remaining>\n   <textarea id=\"description\" name=\"description\" required=\"required\" maxlength=\"2000\" placeholder=\"Add Package Description\"></textarea>\n </char-remaining>"
-  ],
-  "properties": [
+[
+  [
     {
-      "type": {
-        "names": [
-          "number"
-        ]
+      "comment": "/**\n   * Updates the character counter\n   */",
+      "meta": {
+        "range": [
+          2943,
+          3139
+        ],
+        "filename": "index.js",
+        "lineno": 110,
+        "columnno": 2,
+        "path": "/Users/gforti/Documents/webcomponents/src/characters-remaining",
+        "code": {
+          "id": "astnode100001008",
+          "name": "CharactersRemaining#updateChar",
+          "type": "MethodDefinition",
+          "paramnames": []
+        },
+        "vars": {
+          "": null
+        }
       },
-      "description": "<p>maximum number of characters allowed</p>",
-      "name": "maxLength"
+      "description": "<p>Updates the character counter</p>",
+      "name": "updateChar",
+      "longname": "CharactersRemaining#updateChar",
+      "kind": "function",
+      "memberof": "CharactersRemaining",
+      "scope": "instance",
+      "params": [],
+      "___id": "T000002R000070",
+      "___s": true
     }
   ],
-  "___id": "T000002R000053",
-  "___s": true
-}
+  [
+    {
+      "comment": "/**\n   * Check if error should be displayed to the user\n   * @param {faker} somebody\n   * @example\n   * // Note that there are event listeners that do this automatically\n   * // Manually doing this is not really necessary\n   * const fieldValidation = document.querySelector('field-validation')\n   * fieldValidation.handleInvalidField()\n   */",
+      "meta": {
+        "range": [
+          2405,
+          2643
+        ],
+        "filename": "index.js",
+        "lineno": 73,
+        "columnno": 2,
+        "path": "/Users/gforti/Documents/webcomponents/src/field-validation",
+        "code": {
+          "id": "astnode100001509",
+          "name": "FieldValidation#handleInvalidField",
+          "type": "MethodDefinition",
+          "paramnames": []
+        },
+        "vars": {
+          "": null
+        }
+      },
+      "description": "<p>Check if error should be displayed to the user</p>",
+      "params": [
+        {
+          "type": {
+            "names": [
+              "faker"
+            ]
+          },
+          "name": "somebody"
+        }
+      ],
+      "examples": [
+        "// Note that there are event listeners that do this automatically\n// Manually doing this is not really necessary\nconst fieldValidation = document.querySelector('field-validation')\nfieldValidation.handleInvalidField()"
+      ],
+      "name": "handleInvalidField",
+      "longname": "FieldValidation#handleInvalidField",
+      "kind": "function",
+      "memberof": "FieldValidation",
+      "scope": "instance",
+      "___id": "T000002R000103",
+      "___s": true
+    },
+    {
+      "comment": "/**\n   * remove error message shown to user\n   * @example\n   * // Recommend to have a better selector\n   * const fieldValidation = document.querySelector('field-validation')\n   * fieldValidation.resetField()\n   */",
+      "meta": {
+        "range": [
+          2863,
+          2910
+        ],
+        "filename": "index.js",
+        "lineno": 89,
+        "columnno": 2,
+        "path": "/Users/gforti/Documents/webcomponents/src/field-validation",
+        "code": {
+          "id": "astnode100001556",
+          "name": "FieldValidation#resetField",
+          "type": "MethodDefinition",
+          "paramnames": []
+        },
+        "vars": {
+          "": null
+        }
+      },
+      "description": "<p>remove error message shown to user</p>",
+      "examples": [
+        "// Recommend to have a better selector\nconst fieldValidation = document.querySelector('field-validation')\nfieldValidation.resetField()"
+      ],
+      "name": "resetField",
+      "longname": "FieldValidation#resetField",
+      "kind": "function",
+      "memberof": "FieldValidation",
+      "scope": "instance",
+      "params": [],
+      "___id": "T000002R000107",
+      "___s": true
+    }
+  ]
+]

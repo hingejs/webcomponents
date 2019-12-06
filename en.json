@@ -9,5 +9,9 @@
   "global-properties-type-number": "number",
   "global-properties-type-string": "string",
   "global-properties-type-unknown": "unknown",
-  "CharactersRemaining-classdesc": "Used for keeping track of the number of characters left in a textarea\nor input before the user reaches the maximum number of characters"
+  "updateChar-description": "Updates the character counter",
+  "CharactersRemaining-classdesc": "Used for keeping track of the number of characters left in a textarea\nor input before the user reaches the maximum number of characters",
+  "handleInvalidField-description": "Check if error should be displayed to the user",
+  "resetField-description": "remove error message shown to user",
+  "FieldValidation-classdesc": "Used for keeping track of field errors and displaying an in-line message to the user"
 }

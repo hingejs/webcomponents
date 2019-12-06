@@ -48,7 +48,35 @@ exports.publish = function (data, opts, tutorials) {
   data = helper.prune(data)
 
 
-  data().limit(1).each((doclet) => {
+  const members = helper.getMembers(data)
+
+  members.classes.forEach(doclet => {
+    const url = helper.createLink(doclet)
+    let newHTML = ''
+    helper.registerLink(doclet.longname, url)
+
+    if (Array.isArray(doclet.examples)) {
+      doclet.examples = doclet.examples.map(modelExample)
+    }
+    const results = render(doclet)
+    newHTML += results.html
+    const ancestors = helper.find(data, {memberof: doclet.longname})
+
+    ancestors.forEach(subDoclet => {
+      const result = renderAncestors(subDoclet)
+      newHTML += result.html
+      finalJSON = Object.assign({}, finalJSON, result.json)
+    })
+
+    finalJSON = Object.assign({}, finalJSON, results.json)
+    html = html.concat(`HtmlCache.set('${doclet.longname}.html', '<template>${escapeHTMLContent(newHTML)}</template>')`)
+    routeJSCode = routeJSCode.concat(newRouteCode(doclet.longname))
+    routeHTMLCode.push(`<h-route-link data-route="${doclet.longname}">${doclet.longname}</h-route-link>`)
+
+
+  })
+/*
+  data().each((doclet) => {
     const url = helper.createLink(doclet)
     helper.registerLink(doclet.longname, url)
     // helper.longnameToUrl[doclet.longname]
@@ -60,10 +88,11 @@ exports.publish = function (data, opts, tutorials) {
 
     const results = render(doclet)
 
-
+    const ancestors = helper.find(data, {memberof: doclet.longname})
 
     finalJSON = Object.assign({}, finalJSON, results.json)
     html = html.concat(`HtmlCache.set('${doclet.longname}.html', '<template>${escapeHTMLContent(results.html)}</template>')`)
+
     routeJSCode = routeJSCode.concat(newRouteCode(doclet.longname))
     routeHTMLCode.push(`<h-route-link data-route="${doclet.longname}">${doclet.longname}</h-route-link>`)
 
@@ -88,15 +117,23 @@ exports.publish = function (data, opts, tutorials) {
        addSignatureParams(doclet);
        addSignatureReturns(doclet);
        addAttribs(doclet);
-     }*/
-  })
+     }
+  })*/
 
-
-  data().limit(1).each((doclet) => {
-    // console.log('-----======FINAL DOC=====-------')
+let doclets = []
+  /*data().each((doclet) => {
+     //console.log('-----======FINAL DOC=====-------')
     // console.log(doclet)
-    //writeFileProms('doclet.json', JSON.stringify(doclet, null, 2))
+     doclets.push(doclet)
+
+  })*/
+
+  members.classes.forEach(doclet => {
+    const ancestors = helper.find(data, {memberof: doclet.longname})
+    doclets.push(ancestors)
   })
+
+  writeFileProms('doclet.json', JSON.stringify(doclets, null, 2))
 
 
   writeFileProms('en.json', JSON.stringify(finalJSON, null, 2))
@@ -242,4 +279,48 @@ function safeHTML(input = '') {
 
 function escapeHTMLContent(html) {
   return html.split('\n').join('').split('\r').join('').trim().replace(/'/gi, '\\\'').replace(/(\\\d)/ig, '\\\$1')
+}
+
+
+function renderAncestors(doclet) {
+  let keys = {}
+  let i18nKeys = {
+    'description': '',
+    'kind': '',
+    'since': 'global-since'
+  }
+
+  if (doclet.kind && finalJSON.hasOwnProperty(`global-kind-${doclet.kind}`)) {
+    i18nKeys['kind'] = `global-kind-${doclet.kind}`
+  } else if (doclet.kind && doclet.kind.trim().length) {
+    keys[`global-kind-custom-${doclet.kind}`] = doclet.kind
+    i18nKeys['kind'] = `global-kind-custom-${doclet.kind}`
+  } else {
+    i18nKeys['kind'] = 'global-kind-unknown'
+  }
+
+  if (doclet.description) {
+    i18nKeys['description'] = `${doclet.name}-description`
+    keys[`${doclet.name}-description`] = removeHTML(doclet.description)
+  }
+
+
+  if (doclet.properties) {
+
+  }
+
+  let html = `
+    <article class="page-header">
+      <div class="symbol-detail-labels">
+        <span data-i18n="${i18nKeys.kind}" class="label label-kind"></span>
+      </div>
+      <h1><span class="symbol-name">${doclet.name}</span></h1>
+      <div class="symbol-classdesc">
+        <span data-i18n="${i18nKeys.description}"></span>
+      </div>
+    </article>
+  `
+
+
+  return { html, json: keys }
 }

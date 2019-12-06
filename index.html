@@ -18,7 +18,8 @@
     <button class="es">Spanish</button>
     </p>
     <h-route-link data-route="/">Home</h-route-link>
-    <h-route-link data-route="h-characters-remaining">h-characters-remaining</h-route-link>
+    <h-route-link data-route="CharactersRemaining">CharactersRemaining</h-route-link>
+<h-route-link data-route="FieldValidation">FieldValidation</h-route-link>
     <h-route-display></h-route-display>
     <script type="module">
     import HtmlCache from './html-cache.js'
@@ -40,9 +41,14 @@
       await routeDisplay.insertContent(HtmlCache.get('index.html'))
       next()
     })
-    Router.setPath('h-characters-remaining', async (req, next) => {
+    Router.setPath('CharactersRemaining', async (req, next) => {
     const routeDisplay = document.querySelector('h-route-display')
-    await routeDisplay.insertContent(HtmlCache.get('h-characters-remaining.html'))
+    await routeDisplay.insertContent(HtmlCache.get('CharactersRemaining.html'))
+    next()
+  })
+Router.setPath('FieldValidation', async (req, next) => {
+    const routeDisplay = document.querySelector('h-route-display')
+    await routeDisplay.insertContent(HtmlCache.get('FieldValidation.html'))
     next()
   })
     </script>
