@@ -15,6 +15,31 @@ You can use this package in addition to your own.
 - [x] Flexible for CSS
 - [x] Unit tested
 
+
+## Element checklist
+This checklist can be used as a guide for adding elements that are easy to reuse and maintain.
+
+
+**Category**
+* [ ] Input Controls: buttons, text fields, toggles
+* [ ] Navigational: breadcrumb, search field, pagination
+* [ ] Informational: tooltips, notifications, modal windows
+* [ ] Containers: accordion, tabs
+
+**Design**
+* [ ] Be clear what problem the element solves and when to use it
+* [ ] Has unit tests
+* [ ] Provides a default
+* [ ] Only affects itself
+* [ ] Defines itself and its styles only in one place
+* [ ] Should not become complex
+* [ ] Does not rely on a parent element
+* [ ] Uses custom events to notify outside of itself 
+* [ ] Works in supported browsers and devices
+* [ ] Is [accessible](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/CSS_and_JavaScript) for all users
+* [ ] Provides necessary [WAI-ARIA](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics) information
+* [ ] Will not cause issues with translation or [internationalization](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
+
 ## Live demos
 
 - https://hingejs.github.io/webcomponents/
