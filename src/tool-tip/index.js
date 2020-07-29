@@ -1,103 +1,149 @@
 const TAG_NAME = 'h-tool-tip'
 if (!window.customElements.get(TAG_NAME)) {
   window.customElements.define(TAG_NAME, class extends window.HTMLElement {
+    constructor() {
+      super()
+      if (null === this.shadowRoot) {
+        this._onMouseoverBind = this.show.bind(this)
+        this._onMouseoutBind = this.hide.bind(this)
+        this.attachShadow({ mode: 'open' })
+          .appendChild(this._generateTemplate().content.cloneNode(true))
+        window.document.body.appendChild(this)
+      }
+    }
+
 
     _generateTemplate() {
-
       const template = document.createElement('template')
-
       template.innerHTML = `
-      <style>
-        .arrow {
-          background: var(--surface, #212121);
-          height: 15px;
-          position: absolute;
-          transform: rotateZ(45deg);
-          width: 15px;
-        }
-        .tip {
-          background-color: var(--surface, #212121);
-          border-radius: 6px;
-          box-shadow: var(--element-shadow, rgba(0,0,0,0.5));
-          color: var(--on-surface, #eee);
-          display: inline;
-          left: -100px;
-          opacity: 0;
-          padding: 0.6rem;
-          position: absolute;
-          top: -100px;
-          transition: opacity 0.3s;
-          z-index: 1000;
-        }
-        .tip.active {
-          opacity:1;
-        }
-        .bottom {
-          box-shadow: -1px -1px var(--shadow);
-        }
-        .left {
-          box-shadow: 1px -1px var(--shadow);
-        }
-        .top {
-          box-shadow: 1px 1px 1px 0px var(--shadow);
-        }
-        .right {
-          box-shadow: -1px 1px var(--shadow);
-        }
-      </style>
-      <div class="tip">
-        <div class="arrow"></div>
-        <slot></slot>
-      </div>
-    `
+        <style>
+          .arrow {
+            background: var(--surface, #212121);
+            height: 15px;
+            position: absolute;
+            transform: rotateZ(45deg);
+            width: 15px;
+          }
+          .tip {
+            background-color: var(--surface, #212121);
+            border-radius: 6px;
+            box-shadow: var(--element-shadow, rgba(0,0,0,0.5));
+            color: var(--on-surface, #eee);
+            display: inline;
+            left: -100px;
+            opacity: 0;
+            padding: 0.6rem;
+            position: absolute;
+            top: -100px;
+            transition: opacity 0.3s;
+            z-index: 1000;
+          }
+          .tip.active {
+            opacity:1;
+          }
+          .bottom {
+            box-shadow: -1px -1px var(--shadow);
+          }
+          .left {
+            box-shadow: 1px -1px var(--shadow);
+          }
+          .top {
+            box-shadow: 1px 1px 1px 0px var(--shadow);
+          }
+          .right {
+            box-shadow: -1px 1px var(--shadow);
+          }
+        </style>
+        <div class="tip">
+          <div class="arrow"></div>
+          <slot></slot>
+        </div>
+      `
       return template
     }
 
-    constructor() {
-      super()
-      this.attachShadow({ mode: 'open' })
-        .appendChild(this._generateTemplate().content.cloneNode(true))
-      this.$tip = this.shadowRoot.querySelector('div.tip')
-      this.$arrow = this.shadowRoot.querySelector('div.arrow')
-      this._onMouseoverBind = this.show.bind(this)
-      this._onMouseoutBind = this.hide.bind(this)
-      this.$tipFor
-    }
-
     connectedCallback() {
-      this.updateTipFor()
+      if (this.shadowRoot instanceof ShadowRoot) {
+        this.$tip = this.shadowRoot.querySelector('div.tip')
+        this.$arrow = this.shadowRoot.querySelector('div.arrow')
+        this.hide()
+        this.updateTipFor()
+      }
     }
 
     disconnectedCallback() {
       if (this.$tipFor) {
         this.$tipFor.removeEventListener('mouseover', this._onMouseoverBind)
         this.$tipFor.removeEventListener('mouseout', this._onMouseoutBind)
+        if (this.observer) {
+          this.observer.disconnect()
+        }
       }
     }
 
     updateTipFor() {
-      this.disconnectedCallback()
-      this.$tipFor = document.getElementById(this.dataset.for)
-      if (this.$tipFor && this.getAttribute('data-hover') !== 'false') {
-        this.$tipFor.addEventListener('mouseover', this._onMouseoverBind)
-        this.$tipFor.addEventListener('mouseout', this._onMouseoutBind)
+      if (this.isNewTipFor()) {
+        this._updateHoverFeature()
       }
     }
+
+    _updateHoverFeature() {
+      this.disconnectedCallback()
+      if (this.getAttribute('data-hover') !== 'false') {
+        this.$tipFor = this.$tipForNew
+        if (this.$tipFor) {
+          this.$tipFor.addEventListener('mouseover', this._onMouseoverBind)
+          this.$tipFor.addEventListener('mouseout', this._onMouseoutBind)
+          this.onRemove(this.$tipFor, this.remove.bind(this))
+        }
+      }
+    }
+
+    isNewTipFor() {
+      this.$tipForNew = document.getElementById(this.dataset.for)
+      return this.$tipForNew && !this.$tipForNew.isEqualNode(this.$tipFor)
+    }
+
     static get observedAttributes() {
       return ['data-position', 'data-for', 'data-hover']
     }
 
     attributeChangedCallback(attr, oldValue, newValue) {
       if (oldValue !== newValue) {
-        if (['data-for', 'data-hover'].includes(attr)) {
+        if (['data-for'].includes(attr)) {
           this.updateTipFor()
+        }
+        if (['data-hover'].includes(attr)) {
+          this._updateHoverFeature()
         }
         this._positionAt()
       }
     }
 
+    onRemove(element, onDetachCallback) {
+      const isDetached = el => {
+        if (document === el.parentNode) {
+          return false
+        } else if (null === el.parentNode) {
+          return true
+        } else {
+          return isDetached(el.parentNode)
+        }
+      }
+      this.observer = new MutationObserver(() => {
+        if (isDetached(element)) {
+          this.observer.disconnect()
+          onDetachCallback()
+        }
+      })
+      this.observer.observe(document, {
+        childList: true,
+        subtree: true
+      })
+    }
+
     _positionAt() {
-      if (this.$tipFor) {
+      if (this.$tipFor && this.$tip) {
         const position = this.dataset.position || 'right'
         const parentCoords = this.$tipFor.getBoundingClientRect()
         const tooltip = this.$tip
@@ -143,10 +189,11 @@ if (!window.customElements.get(TAG_NAME)) {
       let arrowCoords
       const thisRect = this.$tip.getBoundingClientRect()
       switch (position) {
-        case 'left': arrowCoords = this._arrowAtRight(thisRect); break
-        case 'right': arrowCoords = this._arrowAtLeft(thisRect); break
-        case 'top': arrowCoords = this._arrowAtBottom(thisRect); break
-        case 'bottom': arrowCoords = this._arrowAtTop(thisRect); break
+      case 'left': arrowCoords = this._arrowAtRight(thisRect); break
+      case 'right': arrowCoords = this._arrowAtLeft(thisRect); break
+      case 'top': arrowCoords = this._arrowAtBottom(thisRect); break
+      case 'bottom': arrowCoords = this._arrowAtTop(thisRect); break
+      default: arrowCoords = this._arrowAtRight(thisRect)
       }
       const { arrowTop, arrowLeft } = arrowCoords
       this.$arrow.style.left = `${arrowLeft}px`
@@ -190,8 +237,8 @@ if (!window.customElements.get(TAG_NAME)) {
 
     hide() {
       this.$tip.classList.remove('active')
-      this.$tip.style.left = '-100px'
-      this.$tip.style.top = '-100px'
+      this.$tip.style.left = '-1000px'
+      this.$tip.style.top = '-1000px'
     }
 
     isShowing() {
@@ -200,3 +247,4 @@ if (!window.customElements.get(TAG_NAME)) {
 
   })
 }
+

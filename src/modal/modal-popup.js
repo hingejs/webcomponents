@@ -61,8 +61,7 @@ if (!window.customElements.get(TAG_NAME)) {
         }
         .large {
           max-height: 80vh;
-          max-width: 80vw;
-          width: 70vw;
+          width: 80vw;
         }
         .is-tall {
           max-height: 95vh;
@@ -234,21 +233,26 @@ if (!window.customElements.get(TAG_NAME)) {
 
     constructor() {
       super()
-      const shadowRoot = this.attachShadow({ mode: 'open' })
-      shadowRoot.appendChild(this._generateTemplate().content.cloneNode(true))
-      this.$btnClose = this.shadowRoot.querySelector('div.close')
-      this.$modal = this.shadowRoot.querySelector('div.modal')
-      this.$modalPopup = this.shadowRoot.querySelector('div.popup')
-      this.$modalBG = this.shadowRoot.querySelector('div.background')
-      this.$modalBlur = document.querySelector('h-modal-blur')
-      this.$sideExpand = this.shadowRoot.querySelector('.side-expand')
+      if (null === this.shadowRoot) {
+        this.attachShadow({ mode: 'open' })
+          .appendChild(this._generateTemplate().content.cloneNode(true))
+          window.document.body.appendChild(this)
+          this.$btnClose = this.shadowRoot.querySelector('div.close')
+          this.$modal = this.shadowRoot.querySelector('div.modal')
+          this.$modalPopup = this.shadowRoot.querySelector('div.popup')
+          this.$modalBG = this.shadowRoot.querySelector('div.background')
+          this.$modalBlur = document.querySelector('modal-blur')
+          this.$sideExpand = this.shadowRoot.querySelector('.side-expand')
+      }
     }
 
     connectedCallback() {
-      this.$btnClose.addEventListener('click', this.closePopup.bind(this))
-      this.$modalBG.addEventListener('click', this.closePopup.bind(this))
-      this.$sideExpand.addEventListener('click', this.expand.bind(this))
-      this.render()
+      if (this.shadowRoot instanceof ShadowRoot) {
+        this.$btnClose.addEventListener('click', this.closePopup.bind(this))
+        this.$modalBG.addEventListener('click', this.closePopup.bind(this))
+        this.$sideExpand.addEventListener('click', this.expand.bind(this))
+        this.render()
+      }
     }
 
     resetScroll() {
@@ -258,11 +262,14 @@ if (!window.customElements.get(TAG_NAME)) {
     }
 
     static get observedAttributes() {
-      return ['data-show', 'data-allow-close', 'data-position', 'data-allow-screen-click', 'data-is-large', 'data-is-tall', 'data-expand']
+      return ['data-show', 'data-allow-close', 'data-position', 'data-allow-screen-click', 'data-is-large', 'data-is-tall', 'data-expand', 'data-for']
     }
 
     attributeChangedCallback(attr, oldValue, newValue) {
       if (oldValue !== newValue) {
+        if (['data-for'].includes(attr)) {
+          this.updateTipFor()
+        }
         this.render()
       }
     }
@@ -351,5 +358,45 @@ if (!window.customElements.get(TAG_NAME)) {
       this.$sideExpand.classList.toggle('hide-content', this.getAttribute('data-expand') === 'false')
     }
 
+    onRemove(element, onDetachCallback) {
+      const isDetached = el => {
+        if (document === el.parentNode) {
+          return false
+        } else if (null === el.parentNode) {
+          return true
+        } else {
+          return isDetached(el.parentNode)
+        }
+      }
+      this.observer = new MutationObserver(() => {
+        if (isDetached(element)) {
+          this.observer.disconnect()
+          onDetachCallback()
+        }
+      })
+      this.observer.observe(document, {
+        childList: true,
+        subtree: true
+      })
+    }
+
+    updateTipFor() {
+      if (this.isNewTipFor()) {
+        if (this.observer instanceof MutationObserver) {
+          this.observer.disconnect()
+        }
+        this.$tipFor = this.$tipForNew
+        if (this.$tipFor) {
+          this.onRemove(this.$tipFor, this.remove.bind(this))
+        }
+      }
+    }
+
+    isNewTipFor() {
+      this.$tipForNew = document.getElementById(this.dataset.for)
+      return this.$tipForNew && !this.$tipForNew.isEqualNode(this.$tipFor)
+    }
+
   })
 }
+
