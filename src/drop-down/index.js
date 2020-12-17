@@ -1,7 +1,7 @@
 /*
-<div id="deployment-device"> *** </div>
+<div id="main"> *** </div>
 <drop-down
-data-for="deployment-device"
+data-for="main"
 data-user-action="mouse | click | auxclick"
 data-position="left | right"
 data-distance-x="15"
@@ -16,7 +16,6 @@ data-parent=""
 </drop-down>
 */
 
-//TODO figure mouse out, blur to close, correct styling, third nested menu test
 window.customElements.define('drop-down', class extends HTMLElement {
   constructor() {
     super()
