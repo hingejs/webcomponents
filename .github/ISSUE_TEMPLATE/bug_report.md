@@ -34,5 +34,15 @@ If applicable, add screenshots to help explain your problem.
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
 
+### Browsers Affected
+<!-- Check all that apply -->
+- [ ] Chrome
+- [ ] Firefox
+- [ ] Edge
+- [ ] Safari 11
+- [ ] Safari 10
+- [ ] IE 11
+
+
 **Additional context**
 Add any other context about the problem here.
